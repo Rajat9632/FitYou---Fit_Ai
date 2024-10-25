@@ -6,7 +6,7 @@ import os
 app = Flask(__name__)
 
 # Read exercises from CSV dataset 
-API_KEY = os.getenv('AIzaSyDUIboyj33qpE6gqcyTpDwbC6aAn5j5urM')
+API_KEY = os.getenv('your_api_key')
 def load_exercises():
     return pd.read_csv('exercises.csv')
 
