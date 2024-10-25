@@ -1,0 +1,105 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+body {
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+header {
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.auth-buttons a {
+    margin-left: 15px;
+    padding: 10px 20px;
+    border-radius: 25px;
+    text-decoration: none;
+    color: #fff;
+}
+
+.auth-buttons .login-btn {
+    background-color: transparent;
+    color: #333;
+    border: 1px solid #333;
+}
+
+.auth-buttons .start-now-btn {
+    background-color: #a8e061;
+    color: #333;
+}
+
+.hero {
+    display: flex; /* Use flexbox for layout */
+    justify-content: space-between; /* Align items */
+    align-items: center; /* Center vertically */
+    padding: 20px; /* Adjust padding */
+    background-color: #fff;
+    flex-wrap: wrap; /* Allow wrapping for smaller screens */
+}
+
+.text-container {
+    max-width: 50%; /* Limit width of text section */
+}
+
+.hero h1 {
+    font-size: 2.5rem; /* Adjust font size for better responsiveness */
+}
+
+.hero p {
+    margin-top: 20px;
+    color: #555;
+    font-size: 1rem; /* Adjust font size */
+}
+
+.cta-btn {
+    display: inline-block;
+    background-color: #a8e061;
+    color: #fff;
+    padding: 15px 30px;
+    border-radius: 50px;
+    text-decoration: none;
+    margin-top: 30px;
+    font-size: 1rem;
+}
+
+.quiz-info {
+    margin-top: 10px;
+    font-size: 0.9rem;
+    color: #777;
+}
+
+.phone-mockup {
+    position: relative;
+    max-width: 40%; /* Limit width of image container */
+    margin-left: 20px; /* Space between text and image */
+}
+
+.phone-mockup img {
+    width: 100%; /* Make image responsive */
+    height: auto; /* Maintain aspect ratio */
+}
+
+.overlay-text {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: white;
+    padding: 10px;
+    border-radius: 20px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    font-size: 0.9rem;
+}

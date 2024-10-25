@@ -1,0 +1,8 @@
+exercise_name,category,reps_min,reps_max,duration_min,duration_max
+Jumping Jacks,warmup,10,20,0,0
+High Knees,warmup,10,15,0,0
+Arm Circles,warmup,8,12,0,0
+Burpees,exercise,6,10,0,0
+Push-Ups,exercise,6,10,0,0
+Standing Forward Bend,cooldown,1,2,0,0
+Seated Hamstring Stretch,cooldown,1,2,0,0

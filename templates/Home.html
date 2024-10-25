@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #000;
+            color: #fff;
+            font-size: 16px;
+            overflow-x: hidden;
+        }
+
+        header {
+            background-color: #222;
+            padding: 20px;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #ff4f00; 
+        }
+
+        .auth-buttons a {
+            margin-left: 15px;
+            padding: 12px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .auth-buttons .login-btn {
+            background-color: #ff4f00; 
+            color: #fff;
+            border: 1px solid #ff4f00;
+        }
+
+        .auth-buttons .login-btn:hover {
+            background-color: #e64300; 
+        }
+
+        .auth-buttons .start-now-btn {
+            background-color: #eaff07; 
+            color: #000000;
+        }
+
+        .auth-buttons .start-now-btn:hover {
+            background-color: #009d8b; 
+        }
+
+        .hero {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 60px;
+            min-height: 89vh;
+            background: linear-gradient(135deg, #111 0%, #222 100%);
+            position: relative;
+        }
+
+        .text-container {
+            max-width: 50%;
+            flex: 1;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            color: #ff4f00; 
+            font-weight: bold;
+            margin-bottom: 25px;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            margin-top: 20px;
+            color: #ccc;
+            font-size: 1.6rem;
+            line-height: 1.6;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            background-color: #ff4f00; 
+            color: #fff;
+            padding: 15px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            margin-top: 30px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .cta-btn:hover {
+            background-color: #e64300; 
+            transform: translateY(-3px);
+        }
+
+        .quiz-info {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            color: #ddd;
+        }
+
+        .phone-mockup {
+            position: relative;
+            max-width: 40%;
+            margin-left: 20px;
+            flex: 1;
+        }
+
+        .phone-mockup img {
+            width: 100%;
+            height: auto;
+            border-radius: 20px;
+            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .overlay-text {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 15px;
+            border-radius: 25px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            font-size: 1.3rem;
+            color: #333;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .features {
+            display: flex;
+            justify-content: space-around;
+            padding: 60px;
+            background: linear-gradient(135deg, #222 0%, #111 100%);
+            gap: 20px;
+        }
+
+        .feature {
+            text-align: center;
+            max-width: 300px;
+            padding: 25px;
+            background-color: #333;
+            border-radius: 15px;
+            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .feature:hover {
+            transform: translateY(-10px);
+        }
+
+        .feature i {
+            font-size: 3rem;
+            color: #ff4f00;
+            margin-bottom: 20px;
+        }
+
+        .feature h2 {
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+        }
+
+        .feature p {
+            font-size: 1.1rem;
+            color: #ccc;
+        }
+
+        footer {
+            background-color: #222;
+            color: #fff;
+            text-align: center;
+            padding: 25px;
+            margin-top: 40px;
+            font-size: 1.1rem;
+        }
+
+        footer p {
+            margin: 0;
+            font-weight: 600;
+        }
+        @media (max-width: 768px) {
+            .hero {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .text-container, .phone-mockup {
+                max-width: 100%;
+                margin-left: 0;
+            }
+
+            .phone-mockup {
+                margin-top: 30px;
+            }
+
+            .hero h1 {
+                font-size: 3rem;
+            }
+
+            .hero p {
+                font-size: 1.4rem;
+            }
+
+            .cta-btn {
+                padding: 15px 30px;
+                font-size: 1.2rem;
+            }
+
+            .quiz-info {
+                font-size: 1rem;
+            }
+
+            .overlay-text {
+                font-size: 1rem;
+                padding: 10px;
+            }
+
+            .features {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .feature {
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FIT YOU - Your AI-powered Fitness Coach</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <h3>Fit You</h3>
+            </div>
+            <div class="auth-buttons">
+                <a href="/sport" class="login-btn animate__animated animate__fadeIn">Sport Scheduler</a>
+                <a href="/diet" class="start-now-btn animate__animated animate__fadeIn">Get your diet plan</a>
+                <a href="/workout" class="login-btn animate__animated animate__fadeIn">Workout</a>
+                <a href="/gen" class="start-now-btn animate__animated animate__fadeIn">Personalized Routine</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="text-container animate__animated animate__fadeInLeft">
+                <h1>Your Fitness Coach</h1>
+                <p>With the FitAi Coach workout app, you get a personalized fitness program that gets you real results.</p>
+                <a href="/gen" class="cta-btn animate__animated animate__pulse">Get your workout plan now</a>
+                <p class="quiz-info animate__animated animate__fadeInUp">Take the FREE quiz to get personalized exercises!</p>
+            </div>
+            <div class="phone-mockup animate__animated animate__fadeInRight">
+                <img src="{{ url_for('static', filename='images/fitai.jpg') }}" alt="FitAi logo">
+
+
+                <div class="overlay-text">FitAi</div>
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="feature animate__animated animate__zoomIn">
+                <i class="fas fa-dumbbell"></i>
+                <h2>Personalized Workouts</h2>
+                <p>Tailored fitness plans based on your goals and fitness level.</p>
+            </div>
+            <div class="feature animate__animated animate__zoomIn">
+                <i class="fas fa-apple-alt"></i>
+                <h2>Nutrition Guidance</h2>
+                <p>Custom diet plans to complement your workout routine.</p>
+            </div>
+            <div class="feature animate__animated animate__zoomIn">
+                <i class="fas fa-chart-line"></i>
+                <h2>Progress Tracking</h2>
+                <p>Keep track of your achievements and progress over time.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Fit You. All rights reserved.</p>
+    </footer>
+</body>
+</html>
