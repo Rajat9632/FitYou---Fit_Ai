@@ -1,0 +1,9 @@
+Flask
+numpy
+pandas
+tensorflow
+scikit-learn==1.2.2
+openai==0.27.8
+requests==2.28.2
+matplotlib==3.7.1
+seaborn==0.12.2
