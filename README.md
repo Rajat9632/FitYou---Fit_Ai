@@ -74,3 +74,5 @@ Email: nikhilbalamurugan@gmail.com
 My incredible team and contributors.
 Open-source tools and libraries.
 The fitness community for endless inspiration.
+
+## This Project is under Open Source Connect India 2025
