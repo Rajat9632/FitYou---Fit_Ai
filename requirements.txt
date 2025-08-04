@@ -5,4 +5,4 @@ tensorflow
 scikit-learn
 openai
 requests
-matplotlib1
+matplotlib
