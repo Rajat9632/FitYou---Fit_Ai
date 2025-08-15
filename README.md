@@ -2,7 +2,7 @@
 
 FitAi redefines fitness with AI-driven personalized plans for workouts and diets. Empowering your fitness journey with technology and expertise, FitAi adapts to your goals and lifestyle.
 
-🌐 **Live Deployment:** [https://fit-you-fit-ai-6ajg.vercel.app/](https://fit-you-fit-ai-6ajg.vercel.app/)
+🌐 **Live Deployment:** https://fit--ai.vercel.app
 
 ---
 
