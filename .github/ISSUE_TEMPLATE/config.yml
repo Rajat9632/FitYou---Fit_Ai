@@ -1,0 +1,37 @@
+# GitHub Issue Templates Configuration
+# This file configures the behavior of issue creation in this repository
+
+# Enable blank issues (issues created without using a template)
+blank_issues_enabled: true
+
+# Contact information for users who need help or have questions
+contact_links:
+  - name: "💬 Discussions"
+    url: "https://github.com/{owner}/{repo}/discussions"
+    about: "Ask questions, share ideas, and discuss with the community"
+  
+  - name: "📚 Documentation"
+    url: "https://github.com/{owner}/{repo}/wiki"
+    about: "Check our documentation for guides and tutorials"
+  
+  - name: "🆘 Support"
+    url: "https://github.com/{owner}/{repo}/discussions/categories/q-a"
+    about: "Get help from the community or maintainers"
+
+# Default settings for blank issues
+blank_issue_title: "Please provide a descriptive title for your issue"
+blank_issue_body: |
+  <!-- 
+  Thank you for creating an issue! 
+  
+  Please provide a clear and descriptive title above, and fill out the information below to help us understand and address your concern.
+  -->
+  
+  ## Description
+  <!-- Provide a clear and concise description of the issue, question, or topic -->
+  
+  ## Context
+  <!-- Add any relevant context, environment details, or background information -->
+  
+  ## Additional Information
+  <!-- Include any screenshots, logs, or other helpful information -->
