@@ -1,0 +1,30 @@
+# Node & build artifacts (if any)
+node_modules
+build
+dist
+
+# Vercel internal
+.verel
+.vercel/output
+
+# Framework-specific cache (if relevant)
+.next/
+__pycache__/
+
+# Logs and temporary files
+*.log
+*.tmp
+
+# Large static assets (move these to external storage)
+*.jpg
+*.png
+*.mp4
+*.mov
+*.avi
+
+# ML or dataset files
+diet_data.csv
+exercises.csv
+
+# Unused static folders
+static/
