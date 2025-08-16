@@ -5,8 +5,8 @@ FitAi redefines fitness with AI-driven personalized plans for workouts and diets
 🌐 **Live Deployment:** https://fit--ai.vercel.app
 
 **Points for issues on leaderboard:** (Currently not started yet)
-1 star - 5 points 
-2 star - 10 points
+1 star - 5 points | 
+2 star - 10 points |
 3 star - 15 points
 
 ---
