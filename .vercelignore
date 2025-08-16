@@ -22,9 +22,5 @@ __pycache__/
 *.mov
 *.avi
 
-# ML or dataset files
-diet_data.csv
-exercises.csv
-
 # Unused static folders
 static/
