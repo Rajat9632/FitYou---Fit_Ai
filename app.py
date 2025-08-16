@@ -7,50 +7,57 @@ import json
 
 app = Flask(__name__)
 
-# Ollama API configuration
-OLLAMA_BASE_URL = "http://localhost:11434"
-OLLAMA_MODEL = "YOUR_MODEL_NAME"  # Replace with your actual model name
+# Ollama API configuration - REMOVED FOR VERCEL COMPATIBILITY
+# OLLAMA_BASE_URL = "http://localhost:11434"
+# OLLAMA_MODEL = "YOUR_MODEL_NAME"  # Replace with your actual model name
 
-# Ollama client functions
-def chat_with_ollama(message, context=""):
+# Rule-based fitness chatbot for Vercel compatibility
+def chat_with_fitness_ai(message, context=""):
     """
-    Send a message to Ollama API and get AI response
+    Rule-based fitness AI response system that works in Vercel
     """
-    try:
-        fitness_context = f"""
-You are FitAI, an expert fitness and health coach. You provide personalized advice on:
-- Workout routines and exercise techniques
-- Nutrition and diet planning
-- Fitness goal setting and motivation
-- Health and wellness tips
-- Form corrections and injury prevention
-
-Always be encouraging, professional, and provide actionable advice. Keep responses concise but informative.
-
-{context}
-
-User: {message}
-FitAI:"""
-        
-        payload = {
-            "model": OLLAMA_MODEL,
-            "prompt": fitness_context,
-            "stream": False
-        }
-        
-        response = requests.post(f"{OLLAMA_BASE_URL}/api/generate", json=payload, timeout=30)
-        
-        if response.status_code == 200:
-            return response.json().get('response', 'Sorry, I could not generate a response.')
+    message_lower = message.lower()
+    
+    # Fitness advice patterns
+    if any(word in message_lower for word in ['workout', 'exercise', 'training']):
+        if 'beginner' in message_lower:
+            return "For beginners, start with 20-30 minutes of cardio 3 times a week. Focus on form over intensity. Try walking, cycling, or swimming to build endurance safely."
+        elif 'strength' in message_lower:
+            return "Start with bodyweight exercises: push-ups, squats, lunges, and planks. Do 2-3 sets of 10-15 reps. Rest 1-2 minutes between sets."
         else:
-            return f"Error: Unable to connect to AI model (Status: {response.status_code})"
-            
-    except requests.exceptions.ConnectionError:
-        return "Error: Unable to connect to Ollama. Please make sure Ollama is running with 'ollama serve' and the qwen2:0.5b model is installed."
-    except requests.exceptions.Timeout:
-        return "Error: Request timed out. The AI model might be processing a complex request."
-    except Exception as e:
-        return f"Error: {str(e)}"
+            return "A good workout routine includes: 1) 5-10 min warm-up, 2) 20-40 min main exercise, 3) 5-10 min cool-down. Aim for 150 minutes of moderate activity weekly."
+    
+    elif any(word in message_lower for word in ['diet', 'nutrition', 'food', 'eat']):
+        if 'weight loss' in message_lower:
+            return "For weight loss: Create a 500-calorie daily deficit, eat protein-rich foods, include vegetables, and stay hydrated. Track your meals and be consistent."
+        elif 'muscle' in message_lower:
+            return "For muscle building: Eat 1.6-2.2g protein per kg body weight daily. Include complex carbs, healthy fats, and eat in a slight calorie surplus."
+        else:
+            return "A balanced diet includes: lean proteins, whole grains, fruits, vegetables, and healthy fats. Stay hydrated with 8-10 glasses of water daily."
+    
+    elif any(word in message_lower for word in ['motivation', 'motivated', 'tired']):
+        return "Remember why you started! Set small, achievable goals. Celebrate progress, not perfection. Find a workout buddy or join a fitness community for support."
+    
+    elif any(word in message_lower for word in ['injury', 'pain', 'hurt']):
+        return "If you're experiencing pain, stop exercising immediately. Rest, ice, compress, and elevate (RICE). Consult a healthcare professional for persistent pain."
+    
+    elif any(word in message_lower for word in ['goal', 'target', 'aim']):
+        return "Set SMART goals: Specific, Measurable, Achievable, Relevant, and Time-bound. Break big goals into smaller milestones. Track your progress regularly."
+    
+    elif any(word in message_lower for word in ['form', 'technique', 'proper']):
+        return "Proper form is crucial! Start with lighter weights, focus on controlled movements, and consider working with a certified trainer. Quality over quantity always."
+    
+    elif any(word in message_lower for word in ['rest', 'recovery', 'sleep']):
+        return "Rest days are essential! Aim for 7-9 hours of sleep, take 1-2 rest days per week, and listen to your body. Recovery is when your body gets stronger."
+    
+    elif any(word in message_lower for word in ['cardio', 'aerobic', 'endurance']):
+        return "Cardio improves heart health and burns calories. Start with 20-30 minutes of moderate activity like brisk walking, cycling, or swimming. Gradually increase duration and intensity."
+    
+    elif any(word in message_lower for word in ['hiit', 'interval', 'intense']):
+        return "HIIT workouts are great for burning fat and improving fitness. Try 30 seconds of high-intensity exercise followed by 30 seconds of rest. Repeat for 10-20 minutes."
+    
+    else:
+        return "I'm FitAI, your fitness coach! I can help with workout routines, nutrition advice, motivation, injury prevention, and fitness goals. What specific fitness topic would you like to discuss?"
 
 def get_fitness_context(user_data=None):
     """
@@ -256,7 +263,7 @@ def chat_api():
         context = get_fitness_context(user_context)
         
         # Get AI response
-        ai_response = chat_with_ollama(message, context)
+        ai_response = chat_with_fitness_ai(message, context)
         
         return jsonify({
             'response': ai_response,
