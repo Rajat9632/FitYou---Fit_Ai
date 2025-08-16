@@ -3,6 +3,5 @@ numpy
 pandas
 tensorflow
 scikit-learn
-openai
 requests
 matplotlib
