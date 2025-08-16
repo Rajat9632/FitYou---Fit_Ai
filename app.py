@@ -6,6 +6,8 @@ import PyPDF2
 from docx import Document
 from werkzeug.utils import secure_filename
 import tempfile
+import requests
+import json
 
 app = Flask(__name__)
 
@@ -13,9 +15,14 @@ app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 10 * 1024 * 1024  # 10MB max file size
 ALLOWED_EXTENSIONS = {'pdf', 'docx', 'txt'}
 
+# Ollama API configuration
+OLLAMA_BASE_URL = "http://localhost:11434"
+OLLAMA_MODEL = "YOUR_MODEL_NAME"  # Replace with your actual model name
+
 # Read exercises from CSV dataset 
 API_KEY = os.getenv('your_api_key')
 
+# Medical Certificate Processing Functions
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
@@ -105,6 +112,56 @@ def detect_health_conditions(text):
     
     return detected_conditions
 
+# Ollama AI Chatbot Functions
+def chat_with_ollama(message, context=""):
+    """
+    Send a message to Ollama API and get AI response
+    """
+    try:
+        fitness_context = f"""
+You are FitAI, an expert fitness and health coach. You provide personalized advice on:
+- Workout routines and exercise techniques
+- Nutrition and diet planning
+- Fitness goal setting and motivation
+- Health and wellness tips
+- Form corrections and injury prevention
+
+Always be encouraging, professional, and provide actionable advice. Keep responses concise but informative.
+
+{context}
+
+User: {message}
+FitAI:"""
+        
+        payload = {
+            "model": OLLAMA_MODEL,
+            "prompt": fitness_context,
+            "stream": False
+        }
+        
+        response = requests.post(f"{OLLAMA_BASE_URL}/api/generate", json=payload, timeout=30)
+        
+        if response.status_code == 200:
+            return response.json().get('response', 'Sorry, I could not generate a response.')
+        else:
+            return f"Error: Unable to connect to AI model (Status: {response.status_code})"
+            
+    except requests.exceptions.ConnectionError:
+        return "Error: Unable to connect to Ollama. Please make sure Ollama is running with 'ollama serve' and the qwen2:0.5b model is installed."
+    except requests.exceptions.Timeout:
+        return "Error: Request timed out. The AI model might be processing a complex request."
+    except Exception as e:
+        return f"Error: {str(e)}"
+
+def get_fitness_context(user_data=None):
+    """
+    Generate context based on user's fitness data
+    """
+    if user_data:
+        return f"User context: Weight: {user_data.get('weight', 'N/A')}kg, Height: {user_data.get('height', 'N/A')}cm, Goal: {user_data.get('goal', 'general fitness')}"
+    return ""
+
+# Medical Certificate Upload Route
 @app.route('/upload_medical_certificate', methods=['POST'])
 def upload_medical_certificate():
     """Handle medical certificate upload and processing."""
@@ -138,6 +195,7 @@ def upload_medical_certificate():
     except Exception as e:
         return jsonify({'error': f'An error occurred while processing the file: {str(e)}'}), 500
 
+# Exercise and Routine Functions
 def load_exercises():
     try:
         return pd.read_csv('exercises.csv')
@@ -203,32 +261,6 @@ def calculate_intensity(weight, height):
         return 60  # Moderate intensity for overweight
     else:
         return 40  # Lower intensity for obesity
-
-@app.route('/gen')
-def index():
-    return render_template('index.html')
-
-@app.route('/generate', methods=['POST'])
-def generate():
-    try:
-        weight = float(request.form['weight'])
-        height = float(request.form['height'])
-        
-        # Validate inputs
-        if weight <= 0 or height <= 0:
-            return render_template('index.html', error="Please enter positive values for weight and height")
-        
-        intensity = calculate_intensity(weight, height)
-        routine = output(intensity)
-        return render_template('index.html', routine=routine)
-    except ValueError as e:
-        return render_template('index.html', error=str(e))
-    except Exception as e:
-        return render_template('index.html', error="An error occurred while generating your routine")
-
-@app.route("/")
-def home_page():
-    return render_template("Home.html")
 
 # Load diet data from CSV
 def load_diet_data():
@@ -444,6 +476,33 @@ class WeeklyDietPlan:
         
         return {f'Day {i+1}': base_meals for i in range(7)}
 
+# Route Definitions
+@app.route('/gen')
+def index():
+    return render_template('index.html')
+
+@app.route('/generate', methods=['POST'])
+def generate():
+    try:
+        weight = float(request.form['weight'])
+        height = float(request.form['height'])
+        
+        # Validate inputs
+        if weight <= 0 or height <= 0:
+            return render_template('index.html', error="Please enter positive values for weight and height")
+        
+        intensity = calculate_intensity(weight, height)
+        routine = output(intensity)
+        return render_template('index.html', routine=routine)
+    except ValueError as e:
+        return render_template('index.html', error=str(e))
+    except Exception as e:
+        return render_template('index.html', error="An error occurred while generating your routine")
+
+@app.route("/")
+def home_page():
+    return render_template("Home.html")
+
 @app.route("/diet", methods=["GET", "POST"])
 def diet_plan():
     # Preserve form data for display
@@ -580,6 +639,40 @@ def d4():
 @app.route("/D2")
 def d2():
     return render_template("day2.html")
+
+# AI Chatbot Routes
+@app.route('/ai-coach')
+def ai_coach():
+    """Display the AI fitness coach chatbot interface"""
+    return render_template('chatbot.html')
+
+@app.route('/api/chat', methods=['POST'])
+def chat_api():
+    """API endpoint for chatbot conversations"""
+    try:
+        data = request.json
+        message = data.get('message', '').strip()
+        user_context = data.get('context', {})
+        
+        if not message:
+            return jsonify({'error': 'Message is required'}), 400
+        
+        # Generate context from user data if available
+        context = get_fitness_context(user_context)
+        
+        # Get AI response
+        ai_response = chat_with_ollama(message, context)
+        
+        return jsonify({
+            'response': ai_response,
+            'status': 'success'
+        })
+        
+    except Exception as e:
+        return jsonify({
+            'error': f'Server error: {str(e)}',
+            'status': 'error'
+        }), 500
 
 if __name__ == '__main__':
     app.run(debug=True)
