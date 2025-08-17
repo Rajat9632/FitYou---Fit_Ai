@@ -1,8 +1,7 @@
 Flask
-numpy
 pandas
-tensorflow
-scikit-learn
-openai
+flask-cors
+werkzeug
+serverless-wsgi
 requests
-matplotlib
+

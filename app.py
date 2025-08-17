@@ -1,12 +1,71 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 import random
 import pandas as pd
 import os
+import requests
+import json
 
 app = Flask(__name__)
 
-# Read exercises from CSV dataset 
-API_KEY = os.getenv('your_api_key')
+# Ollama API configuration - REMOVED FOR VERCEL COMPATIBILITY
+# OLLAMA_BASE_URL = "http://localhost:11434"
+# OLLAMA_MODEL = "YOUR_MODEL_NAME"  # Replace with your actual model name
+
+# Rule-based fitness chatbot for Vercel compatibility
+def chat_with_fitness_ai(message, context=""):
+    """
+    Rule-based fitness AI response system that works in Vercel
+    """
+    message_lower = message.lower()
+    
+    # Fitness advice patterns
+    if any(word in message_lower for word in ['workout', 'exercise', 'training']):
+        if 'beginner' in message_lower:
+            return "For beginners, start with 20-30 minutes of cardio 3 times a week. Focus on form over intensity. Try walking, cycling, or swimming to build endurance safely."
+        elif 'strength' in message_lower:
+            return "Start with bodyweight exercises: push-ups, squats, lunges, and planks. Do 2-3 sets of 10-15 reps. Rest 1-2 minutes between sets."
+        else:
+            return "A good workout routine includes: 1) 5-10 min warm-up, 2) 20-40 min main exercise, 3) 5-10 min cool-down. Aim for 150 minutes of moderate activity weekly."
+    
+    elif any(word in message_lower for word in ['diet', 'nutrition', 'food', 'eat']):
+        if 'weight loss' in message_lower:
+            return "For weight loss: Create a 500-calorie daily deficit, eat protein-rich foods, include vegetables, and stay hydrated. Track your meals and be consistent."
+        elif 'muscle' in message_lower:
+            return "For muscle building: Eat 1.6-2.2g protein per kg body weight daily. Include complex carbs, healthy fats, and eat in a slight calorie surplus."
+        else:
+            return "A balanced diet includes: lean proteins, whole grains, fruits, vegetables, and healthy fats. Stay hydrated with 8-10 glasses of water daily."
+    
+    elif any(word in message_lower for word in ['motivation', 'motivated', 'tired']):
+        return "Remember why you started! Set small, achievable goals. Celebrate progress, not perfection. Find a workout buddy or join a fitness community for support."
+    
+    elif any(word in message_lower for word in ['injury', 'pain', 'hurt']):
+        return "If you're experiencing pain, stop exercising immediately. Rest, ice, compress, and elevate (RICE). Consult a healthcare professional for persistent pain."
+    
+    elif any(word in message_lower for word in ['goal', 'target', 'aim']):
+        return "Set SMART goals: Specific, Measurable, Achievable, Relevant, and Time-bound. Break big goals into smaller milestones. Track your progress regularly."
+    
+    elif any(word in message_lower for word in ['form', 'technique', 'proper']):
+        return "Proper form is crucial! Start with lighter weights, focus on controlled movements, and consider working with a certified trainer. Quality over quantity always."
+    
+    elif any(word in message_lower for word in ['rest', 'recovery', 'sleep']):
+        return "Rest days are essential! Aim for 7-9 hours of sleep, take 1-2 rest days per week, and listen to your body. Recovery is when your body gets stronger."
+    
+    elif any(word in message_lower for word in ['cardio', 'aerobic', 'endurance']):
+        return "Cardio improves heart health and burns calories. Start with 20-30 minutes of moderate activity like brisk walking, cycling, or swimming. Gradually increase duration and intensity."
+    
+    elif any(word in message_lower for word in ['hiit', 'interval', 'intense']):
+        return "HIIT workouts are great for burning fat and improving fitness. Try 30 seconds of high-intensity exercise followed by 30 seconds of rest. Repeat for 10-20 minutes."
+    
+    else:
+        return "I'm FitAI, your fitness coach! I can help with workout routines, nutrition advice, motivation, injury prevention, and fitness goals. What specific fitness topic would you like to discuss?"
+
+def get_fitness_context(user_data=None):
+    """
+    Generate context based on user's fitness data
+    """
+    if user_data:
+        return f"User context: Weight: {user_data.get('weight', 'N/A')}kg, Height: {user_data.get('height', 'N/A')}cm, Goal: {user_data.get('goal', 'general fitness')}"
+    return ""
 def load_exercises():
     return pd.read_csv('exercises.csv')
 
@@ -77,7 +136,7 @@ def load_diet_data():
     return pd.read_csv('diet_data.csv')
 
 class WeeklyDietPlan:
-    def __init__(self, age, height, weight, goal, duration, diet_type, gender, activity_level):
+    def __init__(self, age, height, weight, goal, duration, diet_type, gender, activity_level, health_conditions=None):
         self.age = age
         self.height = height
         self.weight = weight
@@ -86,6 +145,7 @@ class WeeklyDietPlan:
         self.diet_type = diet_type
         self.gender = gender
         self.activity_level = activity_level
+        self.health_conditions = health_conditions or []
         self.bmr = self.calculate_bmr()
         self.daily_calories = self.adjust_calories()
         self.diet_data = load_diet_data()  # Load dataset here
@@ -106,14 +166,34 @@ class WeeklyDietPlan:
             return self.bmr  # Maintenance
 
     def create_diet_plan(self):
+        # Adjust diet based on health conditions
+        adjusted_diet_type = self.adjust_diet_for_health_conditions()
+        
         if self.diet_type == 'weight gain':
-            return {f'Day {i+1}': self.get_meal_plan(i+1, 'weight_gain') for i in range(7)}
+            return {f'Day {i+1}': self.get_meal_plan(i+1, 'weight_gain', adjusted_diet_type) for i in range(7)}
         elif self.diet_type == 'weight loss':
-            return {f'Day {i+1}': self.get_meal_plan(i+1, 'weight_loss') for i in range(7)}
+            return {f'Day {i+1}': self.get_meal_plan(i+1, 'weight_loss', adjusted_diet_type) for i in range(7)}
         else:
-            return {}
+            return {f'Day {i+1}': self.get_meal_plan(i+1, 'maintenance', adjusted_diet_type) for i in range(7)}
+    
+    def adjust_diet_for_health_conditions(self):
+        """Adjust diet recommendations based on health conditions"""
+        if not self.health_conditions:
+            return self.diet_type
+        
+        # Health condition specific adjustments
+        if 'Diabetes' in self.health_conditions:
+            return 'diabetic_friendly'
+        elif 'High Blood Pressure' in self.health_conditions:
+            return 'low_sodium'
+        elif 'Heart Disease' in self.health_conditions:
+            return 'heart_healthy'
+        elif 'High Cholesterol' in self.health_conditions:
+            return 'low_cholesterol'
+        else:
+            return self.diet_type
 
-    def get_meal_plan(self, day, diet_type):
+    def get_meal_plan(self, day, diet_type, adjusted_diet_type):
         # Filter the dataset by diet_type
         meals = self.diet_data[self.diet_data['diet_type'] == diet_type]
         meal_plan = {}
@@ -123,7 +203,21 @@ class WeeklyDietPlan:
             selected_meal = meals[meals['meal_type'] == meal_type].sample(1).iloc[0]  # Pick one random meal for each type
             meal_plan[meal_type] = f"{selected_meal['food_item']} - {selected_meal['calories']} calories"
         
+        # Add health condition specific notes
+        if adjusted_diet_type != diet_type:
+            meal_plan['Health Notes'] = self.get_health_specific_notes(adjusted_diet_type)
+        
         return meal_plan
+    
+    def get_health_specific_notes(self, adjusted_diet_type):
+        """Get specific dietary notes based on health conditions"""
+        notes = {
+            'diabetic_friendly': 'Focus on low glycemic index foods, monitor carbohydrate intake',
+            'low_sodium': 'Limit salt intake, avoid processed foods, use herbs for flavoring',
+            'heart_healthy': 'Emphasize omega-3 fatty acids, limit saturated fats',
+            'low_cholesterol': 'Reduce animal fats, increase fiber intake, focus on plant-based proteins'
+        }
+        return notes.get(adjusted_diet_type, '')
 @app.route("/diet", methods=["GET", "POST"])
 def diet_plan():
     diet_plan = None
@@ -132,12 +226,20 @@ def diet_plan():
         height = float(request.form["height"])
         weight = float(request.form["weight"])
         goal = request.form["goal"]
-        duration = request.form["duration"]
+        duration = int(request.form["duration"])
         diet_type = request.form["diet_type"]
         gender = request.form["gender"]
         activity_level = request.form["activity_level"]
+        
+        # Get health conditions if provided
+        health_conditions = []
+        if "health_conditions" in request.form:
+            try:
+                health_conditions = json.loads(request.form["health_conditions"])
+            except (json.JSONDecodeError, KeyError):
+                health_conditions = []
 
-        user = WeeklyDietPlan(age, height, weight, goal, duration, diet_type, gender, activity_level)
+        user = WeeklyDietPlan(age, height, weight, goal, duration, diet_type, gender, activity_level, health_conditions)
         diet_plan = user.plan
 
     return render_template("diet.html", diet_plan=diet_plan)
@@ -183,9 +285,145 @@ def d4():
 def d2():
     return render_template("day2.html")
 
-if __name__ == '__main__':
-    app.run(debug=True)
+# AI Chatbot Routes
+@app.route('/ai-coach')
+def ai_coach():
+    """Display the AI fitness coach chatbot interface"""
+    return render_template('chatbot.html')
 
+@app.route('/api/chat', methods=['POST'])
+def chat_api():
+    """API endpoint for chatbot conversations"""
+    try:
+        data = request.json
+        message = data.get('message', '').strip()
+        user_context = data.get('context', {})
+        
+        if not message:
+            return jsonify({'error': 'Message is required'}), 400
+        
+        # Generate context from user data if available
+        context = get_fitness_context(user_context)
+        
+        # Get AI response
+        ai_response = chat_with_fitness_ai(message, context)
+        
+        return jsonify({
+            'response': ai_response,
+            'status': 'success'
+        })
+        
+    except Exception as e:
+        return jsonify({
+            'error': f'Server error: {str(e)}',
+            'status': 'error'
+        }), 500
+
+@app.route('/upload_medical_certificate', methods=['POST'])
+def upload_medical_certificate():
+    """Handle medical certificate upload and extract health conditions"""
+    try:
+        if 'medical_certificate' not in request.files:
+            return jsonify({'success': False, 'error': 'No file uploaded'}), 400
+        
+        file = request.files['medical_certificate']
+        if file.filename == '':
+            return jsonify({'success': False, 'error': 'No file selected'}), 400
+        
+        # Check file type
+        allowed_extensions = {'txt', 'pdf', 'docx'}
+        file_extension = file.filename.rsplit('.', 1)[1].lower() if '.' in file.filename else ''
+        
+        if file_extension not in allowed_extensions:
+            return jsonify({'success': False, 'error': 'File type not supported. Please upload PDF, DOCX, or TXT files.'}), 400
+        
+        # Extract text based on file type
+        text_content = ""
+        
+        if file_extension == 'txt':
+            # Handle text files
+            try:
+                text_content = file.read().decode('utf-8')
+            except UnicodeDecodeError:
+                text_content = file.read().decode('latin-1')
+        
+        elif file_extension == 'pdf':
+            # For PDFs, we'll return a message asking users to copy-paste text
+            # This avoids heavy PyPDF2 dependency
+            return jsonify({
+                'success': False, 
+                'error': 'PDF processing requires text extraction. Please copy-paste the text content or convert to TXT format.'
+            }), 400
+        
+        elif file_extension == 'docx':
+            # For DOCX files, we'll return a message asking users to copy-paste text
+            # This avoids heavy python-docx dependency
+            return jsonify({
+                'success': False, 
+                'error': 'DOCX processing requires text extraction. Please copy-paste the text content or convert to TXT format.'
+            }), 400
+        
+        # Detect health conditions from text
+        health_conditions = detect_health_conditions_from_text(text_content)
+        
+        # Format conditions for display
+        conditions_text = ', '.join(health_conditions) if health_conditions else 'None'
+        
+        return jsonify({
+            'success': True,
+            'health_conditions': health_conditions,
+            'conditions_text': conditions_text
+        })
+        
+    except Exception as e:
+        return jsonify({'success': False, 'error': f'Error processing file: {str(e)}'}), 500
+
+def detect_health_conditions_from_text(text):
+    """Detect health conditions from text content"""
+    if not text:
+        return []
+    
+    text_lower = text.lower()
+    detected_conditions = []
+    
+    # Medical condition keywords mapping
+    conditions = {
+        "diabetes": "Diabetes",
+        "diabetic": "Diabetes",
+        "blood sugar": "Diabetes",
+        "glucose": "Diabetes",
+        "high blood pressure": "High Blood Pressure",
+        "hypertension": "High Blood Pressure",
+        "bp": "High Blood Pressure",
+        "heart disease": "Heart Disease",
+        "cardiac": "Heart Disease",
+        "coronary": "Heart Disease",
+        "asthma": "Asthma",
+        "respiratory": "Respiratory Issues",
+        "cancer": "Cancer",
+        "tumor": "Cancer",
+        "malignant": "Cancer",
+        "kidney disease": "Kidney Disease",
+        "renal": "Kidney Disease",
+        "lung disease": "Lung Disease",
+        "pulmonary": "Lung Disease",
+        "arthritis": "Arthritis",
+        "thyroid": "Thyroid Disorder",
+        "cholesterol": "High Cholesterol",
+        "migraine": "Migraine",
+        "depression": "Depression",
+        "anxiety": "Anxiety"
+    }
+    
+    # Check for each condition
+    for keyword, condition in conditions.items():
+        if keyword in text_lower and condition not in detected_conditions:
+            detected_conditions.append(condition)
+    
+    return detected_conditions
+
+if __name__ == '__main__':
+   
 # backend/adjuster.py
 import os
 from flask import Blueprint, request, jsonify
@@ -410,4 +648,3 @@ def test_adjust_missing_meal():
     res = client.post('/api/adjuster/adjust', json={"user_id": None, "meal_id": "000000000000000000000000"})
     assert res.status_code in (400,404)
 
-# Additional tests require seeded DB and known meal_id
