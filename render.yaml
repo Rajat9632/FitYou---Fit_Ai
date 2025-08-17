@@ -9,9 +9,9 @@ services:
       - key: GEMINI_API_KEY
         sync: false
 
-  - type: static
+  - type: web
     name: fitai-frontend
-    env: node
+    env: static
     buildCommand: npm install && npm run build
     staticPublishPath: frontend/build
     plan: free
