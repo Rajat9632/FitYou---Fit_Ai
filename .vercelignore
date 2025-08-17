@@ -15,16 +15,16 @@ __pycache__/
 *.log
 *.tmp
 
-# Large static assets (move these to external storage)
-*.jpg
-*.png
+# Large media files (exclude these)
 *.mp4
 *.mov
 *.avi
 
-# ML or dataset files
-diet_data.csv
-exercises.csv
+# Keep all essential images and static assets
+# Allow all jpg, png files
+!*.jpg
+!*.png
 
-# Unused static folders
-static/
+# Keep static folder for essential assets
+!static/
+!static/images/
