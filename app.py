@@ -7,10 +7,6 @@ import json
 
 app = Flask(__name__)
 
-# Ollama API configuration - REMOVED FOR VERCEL COMPATIBILITY
-# OLLAMA_BASE_URL = "http://localhost:11434"
-# OLLAMA_MODEL = "YOUR_MODEL_NAME"  # Replace with your actual model name
-
 # Rule-based fitness chatbot for Vercel compatibility
 def chat_with_fitness_ai(message, context=""):
     """
@@ -66,13 +62,21 @@ def get_fitness_context(user_data=None):
     if user_data:
         return f"User context: Weight: {user_data.get('weight', 'N/A')}kg, Height: {user_data.get('height', 'N/A')}cm, Goal: {user_data.get('goal', 'general fitness')}"
     return ""
+
 def load_exercises():
-    return pd.read_csv('exercises.csv')
+    try:
+        return pd.read_csv('exercises.csv')
+    except Exception as e:
+        print(f"Error loading exercises: {e}")
+        return pd.DataFrame()
 
 # Routine generator logic using the dataset
 def output(intensity):
     df = load_exercises()  # Load dataset
     routine_list = []
+    
+    if df.empty:
+        return ["No exercises available. Please check your exercises.csv file."]
 
     def add_exercises(category, max_intensity_ratio):
         max_intensity = intensity * max_intensity_ratio
@@ -121,11 +125,14 @@ def index():
 
 @app.route('/generate', methods=['POST'])
 def generate():
-    weight = float(request.form['weight'])
-    height = float(request.form['height'])
-    intensity = calculate_intensity(weight, height)
-    routine = output(intensity)
-    return render_template('index.html', routine=routine)
+    try:
+        weight = float(request.form['weight'])
+        height = float(request.form['height'])
+        intensity = calculate_intensity(weight, height)
+        routine = output(intensity)
+        return render_template('index.html', routine=routine)
+    except Exception as e:
+        return render_template('index.html', error=f"Error generating routine: {str(e)}")
 
 @app.route("/")
 def diet():
@@ -133,10 +140,14 @@ def diet():
 
 # Load diet data from CSV
 def load_diet_data():
-    return pd.read_csv('diet_data.csv')
+    try:
+        return pd.read_csv('diet_data.csv')
+    except Exception as e:
+        print(f"Error loading diet data: {e}")
+        return pd.DataFrame()
 
 class WeeklyDietPlan:
-    def __init__(self, age, height, weight, goal, duration, diet_type, gender, activity_level, health_conditions=None):
+    def __init__(self, age, height, weight, goal, duration, diet_type, gender, activity_level):
         self.age = age
         self.height = height
         self.weight = weight
@@ -145,7 +156,6 @@ class WeeklyDietPlan:
         self.diet_type = diet_type
         self.gender = gender
         self.activity_level = activity_level
-        self.health_conditions = health_conditions or []
         self.bmr = self.calculate_bmr()
         self.daily_calories = self.adjust_calories()
         self.diet_data = load_diet_data()  # Load dataset here
@@ -166,81 +176,52 @@ class WeeklyDietPlan:
             return self.bmr  # Maintenance
 
     def create_diet_plan(self):
-        # Adjust diet based on health conditions
-        adjusted_diet_type = self.adjust_diet_for_health_conditions()
-        
         if self.diet_type == 'weight gain':
-            return {f'Day {i+1}': self.get_meal_plan(i+1, 'weight_gain', adjusted_diet_type) for i in range(7)}
+            return {f'Day {i+1}': self.get_meal_plan(i+1, 'weight_gain') for i in range(7)}
         elif self.diet_type == 'weight loss':
-            return {f'Day {i+1}': self.get_meal_plan(i+1, 'weight_loss', adjusted_diet_type) for i in range(7)}
+            return {f'Day {i+1}': self.get_meal_plan(i+1, 'weight_loss') for i in range(7)}
         else:
-            return {f'Day {i+1}': self.get_meal_plan(i+1, 'maintenance', adjusted_diet_type) for i in range(7)}
-    
-    def adjust_diet_for_health_conditions(self):
-        """Adjust diet recommendations based on health conditions"""
-        if not self.health_conditions:
-            return self.diet_type
-        
-        # Health condition specific adjustments
-        if 'Diabetes' in self.health_conditions:
-            return 'diabetic_friendly'
-        elif 'High Blood Pressure' in self.health_conditions:
-            return 'low_sodium'
-        elif 'Heart Disease' in self.health_conditions:
-            return 'heart_healthy'
-        elif 'High Cholesterol' in self.health_conditions:
-            return 'low_cholesterol'
-        else:
-            return self.diet_type
+            return {}
 
-    def get_meal_plan(self, day, diet_type, adjusted_diet_type):
+    def get_meal_plan(self, day, diet_type):
         # Filter the dataset by diet_type
+        if self.diet_data.empty:
+            return {"Error": "Diet data not available"}
+            
         meals = self.diet_data[self.diet_data['diet_type'] == diet_type]
+        if meals.empty:
+            return {"Error": f"No meals found for {diet_type}"}
+            
         meal_plan = {}
 
         # Group meals by meal_type and generate the plan
         for meal_type in ['Breakfast', 'Mid-Morning', 'Lunch', 'Afternoon Snack', 'Dinner', 'Before Bed']:
-            selected_meal = meals[meals['meal_type'] == meal_type].sample(1).iloc[0]  # Pick one random meal for each type
-            meal_plan[meal_type] = f"{selected_meal['food_item']} - {selected_meal['calories']} calories"
-        
-        # Add health condition specific notes
-        if adjusted_diet_type != diet_type:
-            meal_plan['Health Notes'] = self.get_health_specific_notes(adjusted_diet_type)
+            try:
+                selected_meal = meals[meals['meal_type'] == meal_type].sample(1).iloc[0]  # Pick one random meal for each type
+                meal_plan[meal_type] = f"{selected_meal['food_item']} - {selected_meal['calories']} calories"
+            except Exception as e:
+                meal_plan[meal_type] = f"Meal not available - {meal_type}"
         
         return meal_plan
-    
-    def get_health_specific_notes(self, adjusted_diet_type):
-        """Get specific dietary notes based on health conditions"""
-        notes = {
-            'diabetic_friendly': 'Focus on low glycemic index foods, monitor carbohydrate intake',
-            'low_sodium': 'Limit salt intake, avoid processed foods, use herbs for flavoring',
-            'heart_healthy': 'Emphasize omega-3 fatty acids, limit saturated fats',
-            'low_cholesterol': 'Reduce animal fats, increase fiber intake, focus on plant-based proteins'
-        }
-        return notes.get(adjusted_diet_type, '')
+
 @app.route("/diet", methods=["GET", "POST"])
 def diet_plan():
     diet_plan = None
     if request.method == "POST":
-        age = int(request.form["age"])
-        height = float(request.form["height"])
-        weight = float(request.form["weight"])
-        goal = request.form["goal"]
-        duration = int(request.form["duration"])
-        diet_type = request.form["diet_type"]
-        gender = request.form["gender"]
-        activity_level = request.form["activity_level"]
-        
-        # Get health conditions if provided
-        health_conditions = []
-        if "health_conditions" in request.form:
-            try:
-                health_conditions = json.loads(request.form["health_conditions"])
-            except (json.JSONDecodeError, KeyError):
-                health_conditions = []
+        try:
+            age = int(request.form["age"])
+            height = float(request.form["height"])
+            weight = float(request.form["weight"])
+            goal = request.form["goal"]
+            duration = request.form["duration"]
+            diet_type = request.form["diet_type"]
+            gender = request.form["gender"]
+            activity_level = request.form["activity_level"]
 
-        user = WeeklyDietPlan(age, height, weight, goal, duration, diet_type, gender, activity_level, health_conditions)
-        diet_plan = user.plan
+            user = WeeklyDietPlan(age, height, weight, goal, duration, diet_type, gender, activity_level)
+            diet_plan = user.plan
+        except Exception as e:
+            return render_template("diet.html", error=f"Error creating diet plan: {str(e)}")
 
     return render_template("diet.html", diet_plan=diet_plan)
 
@@ -257,17 +238,14 @@ def home():
     
     return render_template('sports.html', routine=None)
 
-
-
-
 @app.route("/workout")
 def work():
     return render_template("Sections.html")
 
-
 @app.route("/GP")
 def gp():
     return render_template("page5.html")
+
 @app.route("/D1")
 def d1():
     return render_template("day1.html")
@@ -275,11 +253,10 @@ def d1():
 @app.route("/D3")
 def d3():
     return render_template("day3.html")
+
 @app.route("/D4")
 def d4():
     return render_template("day4.html")
-
-
 
 @app.route("/D2")
 def d2():
@@ -319,110 +296,6 @@ def chat_api():
             'status': 'error'
         }), 500
 
-@app.route('/upload_medical_certificate', methods=['POST'])
-def upload_medical_certificate():
-    """Handle medical certificate upload and extract health conditions"""
-    try:
-        if 'medical_certificate' not in request.files:
-            return jsonify({'success': False, 'error': 'No file uploaded'}), 400
-        
-        file = request.files['medical_certificate']
-        if file.filename == '':
-            return jsonify({'success': False, 'error': 'No file selected'}), 400
-        
-        # Check file type
-        allowed_extensions = {'txt', 'pdf', 'docx'}
-        file_extension = file.filename.rsplit('.', 1)[1].lower() if '.' in file.filename else ''
-        
-        if file_extension not in allowed_extensions:
-            return jsonify({'success': False, 'error': 'File type not supported. Please upload PDF, DOCX, or TXT files.'}), 400
-        
-        # Extract text based on file type
-        text_content = ""
-        
-        if file_extension == 'txt':
-            # Handle text files
-            try:
-                text_content = file.read().decode('utf-8')
-            except UnicodeDecodeError:
-                text_content = file.read().decode('latin-1')
-        
-        elif file_extension == 'pdf':
-            # For PDFs, we'll return a message asking users to copy-paste text
-            # This avoids heavy PyPDF2 dependency
-            return jsonify({
-                'success': False, 
-                'error': 'PDF processing requires text extraction. Please copy-paste the text content or convert to TXT format.'
-            }), 400
-        
-        elif file_extension == 'docx':
-            # For DOCX files, we'll return a message asking users to copy-paste text
-            # This avoids heavy python-docx dependency
-            return jsonify({
-                'success': False, 
-                'error': 'DOCX processing requires text extraction. Please copy-paste the text content or convert to TXT format.'
-            }), 400
-        
-        # Detect health conditions from text
-        health_conditions = detect_health_conditions_from_text(text_content)
-        
-        # Format conditions for display
-        conditions_text = ', '.join(health_conditions) if health_conditions else 'None'
-        
-        return jsonify({
-            'success': True,
-            'health_conditions': health_conditions,
-            'conditions_text': conditions_text
-        })
-        
-    except Exception as e:
-        return jsonify({'success': False, 'error': f'Error processing file: {str(e)}'}), 500
-
-def detect_health_conditions_from_text(text):
-    """Detect health conditions from text content"""
-    if not text:
-        return []
-    
-    text_lower = text.lower()
-    detected_conditions = []
-    
-    # Medical condition keywords mapping
-    conditions = {
-        "diabetes": "Diabetes",
-        "diabetic": "Diabetes",
-        "blood sugar": "Diabetes",
-        "glucose": "Diabetes",
-        "high blood pressure": "High Blood Pressure",
-        "hypertension": "High Blood Pressure",
-        "bp": "High Blood Pressure",
-        "heart disease": "Heart Disease",
-        "cardiac": "Heart Disease",
-        "coronary": "Heart Disease",
-        "asthma": "Asthma",
-        "respiratory": "Respiratory Issues",
-        "cancer": "Cancer",
-        "tumor": "Cancer",
-        "malignant": "Cancer",
-        "kidney disease": "Kidney Disease",
-        "renal": "Kidney Disease",
-        "lung disease": "Lung Disease",
-        "pulmonary": "Lung Disease",
-        "arthritis": "Arthritis",
-        "thyroid": "Thyroid Disorder",
-        "cholesterol": "High Cholesterol",
-        "migraine": "Migraine",
-        "depression": "Depression",
-        "anxiety": "Anxiety"
-    }
-    
-    # Check for each condition
-    for keyword, condition in conditions.items():
-        if keyword in text_lower and condition not in detected_conditions:
-            detected_conditions.append(condition)
-    
-    return detected_conditions
-
 if __name__ == '__main__':
-    app.run(debug=True)
-
+    app.run(debug=True, host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
 
