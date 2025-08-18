@@ -38,6 +38,42 @@
             color: #ff4f00;
         }
 
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #ff4f00;
+        }
+
+        .login-btn {
+            margin-left: 20px;
+            padding: 10px 22px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: bold;
+            background-color: #ff4f00;
+            color: #fff;
+            border: 1px solid #ff4f00;
+            transition: background-color 0.3s ease;
+        }
+
+        .login-btn:hover {
+            background-color: #e64300;
+        }
+
         .auth-buttons a {
             margin-left: 15px;
             padding: 12px 25px;
@@ -346,6 +382,58 @@
             background-color: rgba(0, 0, 0, 0.8);
             color: #fff;
         }
+
+        /* 🌙 Default (Dark Mode) */
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #ff4f00;
+        }
+
+        .login-btn {
+            margin-left: 20px;
+            padding: 10px 22px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: bold;
+            background-color: #ff4f00;
+            color: #fff;
+            border: 1px solid #ff4f00;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .login-btn:hover {
+            background-color: #e64300;
+        }
+
+        /* 🌞 Light Mode (when body has .light-mode) */
+        body.light-mode header {
+            background-color: #f9f9f9;
+            color: #000;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        body.light-mode .nav-links a {
+            color: #000;
+        }
+
+        body.light-mode .nav-links a:hover {
+            color: #ff4f00;
+        }
+
+        body.light-mode .login-btn {
+            background-color: #ff4f00;
+            color: #fff;
+            /* keep white text inside button */
+            border: 1px solid #ff4f00;
+        }
     </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -361,17 +449,16 @@
             <div class="logo">
                 <h3>Fit You</h3>
             </div>
-            <div class="auth-buttons">
-                <a href="/ai-coach" class="start-now-btn animate__animated animate__fadeIn"
-                    style="background: linear-gradient(135deg, #00d4aa, #00b894); color: #fff;">🤖 AI Coach</a>
-                <a href="/sport" class="login-btn animate__animated animate__fadeIn">Sport Scheduler</a>
-                <a href="/diet" class="start-now-btn animate__animated animate__fadeIn">Get your diet plan</a>
-                <a href="/workout" class="login-btn animate__animated animate__fadeIn">Workout</a>
-                <a href="/gen" class="start-now-btn animate__animated animate__fadeIn">Personalized Routine</a>
-                <button class="toggle-theme" id="themeToggle"><i class="fas fa-moon"></i></button>
-
-            </div>
-        </nav>
+            <nav>
+                <div class="nav-links">
+                    <a href="home.html">Home</a>
+                    <a href="#">About</a>
+                    <a href="#">Services</a>
+                    <a href="#">Contact</a>
+                    <a href="login.html" class="login-btn">Login</a>
+                    <button class="toggle-theme" id="themeToggle"><i class="fas fa-moon"></i></button>
+                </div>
+            </nav>
     </header>
 
     <main>
