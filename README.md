@@ -1,4 +1,4 @@
-https://i.postimg.cc/76mJvBmF/OSCI-Project-Banner.png
+[![OSCI-Project-Banner.png](https://i.postimg.cc/76mJvBmF/OSCI-Project-Banner.png)](https://postimg.cc/8JfzMb84)
 # FitAi: Your AI Fitness Companion 🌟
 
 FitAi redefines fitness with AI-driven personalized plans for workouts and diets. Empowering your fitness journey with technology and expertise, FitAi adapts to your goals and lifestyle.
