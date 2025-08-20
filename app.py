@@ -6,6 +6,8 @@ import requests
 import json
 
 app = Flask(__name__)
+app.config['TEMPLATES_AUTO_RELOAD'] = True
+
 
 # Rule-based fitness chatbot for Vercel compatibility
 def chat_with_fitness_ai(message, context=""):
