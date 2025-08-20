@@ -323,9 +323,10 @@
         let healthConditions = [];
 
         // Show diet plan if it exists
-        {% if diet_plan %}
-        document.getElementById("dietPlan").style.display = "block";
-        {% endif %}
+        var hasDietPlan = "{{ 'true' if diet_plan else 'false' }}";
+        if (hasDietPlan === true || hasDietPlan === 'true') {
+            document.getElementById("dietPlan").style.display = "block";
+        }
 
         // Handle medical certificate upload
         document.getElementById("medical_certificate").addEventListener("change", function(event) {

@@ -6,9 +6,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FIT YOU - Your AI-powered Fitness Coach</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<!-- GSAP -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <style>
         /* General body and font styling */
+        :root {
+            --dark-bg: #1a1a1a;
+            --dark-secondary-bg: #222;
+            --dark-tertiary-bg: #2d2d2d;
+            --light-bg: #f0f2f5;
+            --light-secondary-bg: #ffffff;
+            --light-tertiary-bg: #e9e9e9;
+            --text-color-dark: #fff;
+            --text-color-light: #333;
+            --brand-orange: #ff4f00;
+            --brand-orange-dark: #e64300;
+            --brand-green: #00d4aa;
+            --brand-green-dark: #00b894;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -17,8 +38,8 @@
         }
 
         body {
-            background-color: #000;
-            color: #fff;
+            background-color: var(--dark-bg);
+            color: var(--text-color-dark);
             font-size: 16px;
             overflow-x: hidden;
             transition: background-color 0.3s ease, color 0.3s ease;
@@ -26,7 +47,7 @@
 
         /* Header styling */
         header {
-            background-color: #222;
+            background-color: var(--dark-secondary-bg);
             padding: 20px;
             box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
             position: sticky;
@@ -40,16 +61,11 @@
             align-items: center;
             position: relative;
         }
-        
+
         .logo h3 {
             font-size: 2rem;
             font-weight: bold;
-            color: #ff4f00;
-        }
-
-        .auth-buttons {
-            display: flex;
-            align-items: center;
+            color: var(--brand-orange);
         }
 
         .nav-links {
@@ -59,7 +75,7 @@
         }
 
         .nav-links a {
-            color: #fff;
+            color: var(--text-color-dark);
             text-decoration: none;
             font-size: 1.1rem;
             font-weight: 500;
@@ -67,46 +83,42 @@
         }
 
         .nav-links a:hover {
-            color: #ff4f00;
+            color: var(--brand-orange);
         }
 
-        .auth-buttons a {
-            margin-left: 1rem;
+        .auth-buttons {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .auth-buttons a,
+        .auth-buttons button {
             padding: 0.8rem 1.6rem;
             border-radius: 30px;
             text-decoration: none;
             font-size: 0.95rem;
             font-weight: bold;
-            transition: all 0.3s ease-in-out;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
             border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s ease;
         }
 
-        /* Specific button styling */
-        .auth-buttons .login-btn {
-            background: linear-gradient(135deg, #ff6f00, #ff4f00);
+        .auth-buttons .primary-btn {
+            background: linear-gradient(135deg, var(--brand-orange), var(--brand-orange-dark));
             color: white;
         }
 
-        .auth-buttons .login-btn:hover {
-            transform: scale(1.05) translateY(-2px);
-            box-shadow: 0 6px 15px rgba(255, 79, 0, 0.4);
-        }
-
-        .auth-buttons .start-now-btn {
-            background: linear-gradient(135deg, #00d4aa, #00b894);
+        .auth-buttons .secondary-btn {
+            background: linear-gradient(135deg, var(--brand-green), var(--brand-green-dark));
             color: #fff;
-        }
-
-        .auth-buttons .start-now-btn:hover {
-            transform: scale(1.05) translateY(-2px);
-            box-shadow: 0 6px 15px rgba(0, 212, 170, 0.4);
         }
 
         /* Mobile Menu Toggle */
         .mobile-menu-toggle {
             display: none;
-            background: #ff4f00;
+            background: var(--brand-orange);
             border: none;
             cursor: pointer;
             padding: 8px;
@@ -156,7 +168,7 @@
             border: 1px solid #444;
             padding: 10px;
         }
-        
+
         .mobile-menu::before {
             content: '';
             position: absolute;
@@ -189,16 +201,16 @@
             border-radius: 12px;
         }
 
-        .mobile-menu .login-btn {
-            background: linear-gradient(135deg, #ff4f00, #e64300);
+        .mobile-menu a.primary-btn {
+            background: linear-gradient(135deg, var(--brand-orange), var(--brand-orange-dark));
             color: #fff;
         }
 
-        .mobile-menu .start-now-btn {
-            background: linear-gradient(135deg, #eaff07, #c9e000);
+        .mobile-menu a.secondary-btn {
+            background: linear-gradient(135deg, var(--brand-green), var(--brand-green-dark));
             color: #000;
         }
-        
+
         .mobile-menu a:hover {
             transform: translateX(8px);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
@@ -222,7 +234,7 @@
 
         .hero h1 {
             font-size: 4rem;
-            color: #ff4f00;
+            color: var(--brand-orange);
             font-weight: bold;
             margin-bottom: 25px;
             line-height: 1.2;
@@ -237,7 +249,7 @@
 
         .cta-btn {
             display: inline-block;
-            background-color: #ff4f00;
+            background-color: var(--brand-orange);
             color: #fff;
             padding: 15px 40px;
             border-radius: 50px;
@@ -245,13 +257,7 @@
             margin-top: 30px;
             font-size: 1.3rem;
             font-weight: bold;
-            transition: background-color 0.3s ease, transform 0.3s ease;
             box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
-        }
-
-        .cta-btn:hover {
-            background-color: #e64300;
-            transform: translateY(-3px);
         }
 
         .quiz-info {
@@ -276,73 +282,103 @@
 
         .overlay-text {
             position: absolute;
-            top: 10px;
+            top: 20px;
             left: 50%;
             transform: translateX(-50%);
             background-color: rgba(255, 255, 255, 0.9);
-            padding: 15px;
+            padding: 10px 20px;
             border-radius: 25px;
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-            font-size: 1.3rem;
+            font-size: 1.5rem;
             color: #333;
             font-weight: bold;
             text-align: center;
+            letter-spacing: 1px;
         }
-        
+
         /* Features Section */
-        .features {
+        .features, .services-section {
             display: flex;
             justify-content: space-around;
-            padding: 60px;
-            background: linear-gradient(135deg, #222 0%, #111 100%);
+            padding: 80px 60px;
+            background: linear-gradient(135deg, #222 0%, #1a1a1a 100%);
             gap: 20px;
         }
 
-        .feature {
+        .feature, .service-item {
             text-align: center;
             max-width: 300px;
             padding: 25px;
-            background-color: #333;
+            background-color: var(--dark-tertiary-bg);
             border-radius: 15px;
             box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3);
+            border: 1px solid #444;
             transition: transform 0.3s ease;
         }
 
-        .feature:hover {
-            transform: translateY(-10px);
-        }
-
-        .feature i {
+        .feature i, .service-item i {
             font-size: 3rem;
-            color: #ff4f00;
+            color: var(--brand-orange);
             margin-bottom: 20px;
         }
 
-        .feature h2 {
+        .feature h2, .service-item h3 {
             font-size: 1.6rem;
             margin-bottom: 15px;
         }
 
-        .feature p {
+        .feature p, .service-item p {
             font-size: 1.1rem;
             color: #ccc;
         }
 
+        /* Services Section Specific Styles */
+        .services-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 80px 60px;
+            background: linear-gradient(135deg, #1a1a1a 0%, #222 100%);
+        }
+
+        .services-section h2 {
+            font-size: 3rem;
+            color: var(--brand-green);
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+
+        .services-section .intro-text {
+            font-size: 1.3rem;
+            color: #ccc;
+            margin-bottom: 50px;
+            max-width: 600px;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            width: 100%;
+        }
+
         /* Contact Section */
         .contact-section {
-            background: linear-gradient(135deg, #111 0%, #222 100%);
+            background: linear-gradient(135deg, #1a1a1a 0%, #222 100%);
             padding: 80px 60px;
             text-align: center;
         }
 
         .contact-section h2 {
             font-size: 3rem;
-            color: #ff4f00;
+            color: var(--brand-orange);
             margin-bottom: 30px;
             font-weight: bold;
         }
 
-        .contact-section p {
+        .contact-section p.intro-text {
             font-size: 1.3rem;
             color: #ccc;
             margin-bottom: 50px;
@@ -360,7 +396,7 @@
         }
 
         .contact-item {
-            background-color: #333;
+            background-color: var(--dark-tertiary-bg);
             padding: 35px;
             border-radius: 20px;
             box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.4);
@@ -368,15 +404,9 @@
             border: 2px solid transparent;
         }
 
-        .contact-item:hover {
-            transform: translateY(-8px);
-            box-shadow: 0px 15px 30px rgba(255, 79, 0, 0.2);
-            border-color: #ff4f00;
-        }
-
         .contact-item i {
             font-size: 2.5rem;
-            color: #ff4f00;
+            color: var(--brand-orange);
             margin-bottom: 20px;
         }
 
@@ -386,19 +416,19 @@
             color: #fff;
         }
 
-        .contact-item p, .contact-item a {
+        .contact-item p,
+        .contact-item a {
             font-size: 1.1rem;
             color: #ccc;
             text-decoration: none;
-            transition: color 0.3s ease;
         }
 
         .contact-item a:hover {
-            color: #ff4f00;
+            color: var(--brand-orange);
         }
 
         .contact-form {
-            background-color: #333;
+            background-color: var(--dark-tertiary-bg);
             padding: 40px;
             border-radius: 20px;
             box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.4);
@@ -409,7 +439,7 @@
         .contact-form h3 {
             font-size: 1.8rem;
             margin-bottom: 30px;
-            color: #ff4f00;
+            color: var(--brand-orange);
             text-align: center;
         }
 
@@ -439,7 +469,7 @@
         .form-group input:focus,
         .form-group textarea:focus {
             outline: none;
-            border-color: #ff4f00;
+            border-color: var(--brand-orange);
         }
 
         .form-group textarea {
@@ -449,7 +479,7 @@
 
         .submit-btn {
             width: 100%;
-            background-color: #ff4f00;
+            background-color: var(--brand-orange);
             color: #fff;
             padding: 15px;
             border: none;
@@ -457,19 +487,13 @@
             font-size: 1.2rem;
             font-weight: bold;
             cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.3s ease;
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
-        }
-
-        .submit-btn:hover {
-            background-color: #e64300;
-            transform: translateY(-2px);
         }
 
         /* Footer */
         footer {
-            background-color: #222;
-            color: #fff;
+            background-color: var(--dark-secondary-bg);
+            color: var(--text-color-dark);
             text-align: center;
             padding: 25px;
             margin-top: 40px;
@@ -500,18 +524,22 @@
                 margin-left: 0;
             }
 
-            .features {
+            .features, .services-section {
                 flex-wrap: wrap;
                 justify-content: center;
                 padding: 50px 30px;
             }
 
-            .feature {
+            .feature, .service-item {
                 max-width: 280px;
                 margin: 10px;
             }
+
+            .services-section {
+                padding: 50px 30px;
+            }
         }
-        
+
         @media (max-width: 768px) {
             .auth-buttons {
                 display: none;
@@ -545,16 +573,16 @@
                 max-width: 70%;
             }
 
-            .contact-grid {
+            .contact-grid, .services-grid {
                 grid-template-columns: 1fr;
             }
 
             .overlay-text {
-                font-size: 0.8rem;
-                padding: 10px;
+                font-size: 1rem;
+                padding: 10px 15px;
             }
         }
-        
+
         @media (max-width: 480px) {
             .hero h1 {
                 font-size: 2.5rem;
@@ -564,7 +592,7 @@
                 font-size: 1.2rem;
             }
 
-            .contact-section h2 {
+            .contact-section h2, .services-section h2 {
                 font-size: 2.5rem;
             }
         }
@@ -586,77 +614,95 @@
 
         /* Light Mode Styles */
         body.light-mode {
-            background-color: #f0f2f5;
-            color: #333;
+            background-color: var(--light-bg);
+            color: var(--text-color-light);
         }
 
         body.light-mode header,
         body.light-mode footer {
-            background-color: #ffffff;
+            background-color: var(--light-secondary-bg);
             color: #1a1a1a;
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
         }
-        
+
         body.light-mode .hero {
-            background: linear-gradient(135deg, #f9f9f9 0%, #e9e9e9 100%);
+            background: linear-gradient(135deg, var(--light-bg) 0%, var(--light-tertiary-bg) 100%);
         }
 
         body.light-mode .hero h1 {
-            color: #ff4f00; /* keep brand color */
+            color: var(--brand-orange);
         }
-        
+
         body.light-mode .hero p,
-        body.light-mode .quiz-info {
-            color: #555;
+        body.light-mode .quiz-info,
+        body.light-mode .form-group label {
+            color: var(--text-color-light);
         }
 
         body.light-mode .features {
-            background: linear-gradient(135deg, #f9f9f9 0%, #e9e9e9 100%);
+            background: linear-gradient(135deg, var(--light-tertiary-bg) 0%, var(--light-bg) 100%);
         }
-        
+
         body.light-mode .feature {
-            background-color: #fff;
+            background-color: var(--light-secondary-bg);
             box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+            border: 1px solid #ddd;
+        }
+
+        body.light-mode .services-section {
+            background: linear-gradient(135deg, var(--light-bg) 0%, var(--light-tertiary-bg) 100%);
+        }
+
+        body.light-mode .services-section h2 {
+            color: var(--brand-green);
+        }
+
+        body.light-mode .service-item {
+            background-color: var(--light-secondary-bg);
+            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+            border: 1px solid #ddd;
         }
 
         body.light-mode .contact-section {
-            background: linear-gradient(135deg, #f9f9f9 0%, #e9e9e9 100%);
+            background: linear-gradient(135deg, var(--light-bg) 0%, var(--light-tertiary-bg) 100%);
         }
 
         body.light-mode .contact-item {
-            background-color: #fff;
+            background-color: var(--light-secondary-bg);
             box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.1);
+            border-color: #fff;
         }
 
         body.light-mode .contact-item:hover {
             box-shadow: 0px 15px 30px rgba(255, 79, 0, 0.1);
+            border-color: var(--brand-orange);
         }
-        
+
         body.light-mode .contact-form {
-            background-color: #fff;
+            background-color: var(--light-secondary-bg);
             box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.1);
         }
-        
+
         body.light-mode .form-group input,
         body.light-mode .form-group textarea {
-            background-color: #e9e9e9;
-            color: #333;
+            background-color: var(--light-tertiary-bg);
+            color: var(--text-color-light);
             border-color: #ccc;
         }
-        
+
         body.light-mode .form-group input:focus,
         body.light-mode .form-group textarea:focus {
-            border-color: #ff4f00;
+            border-color: var(--brand-orange);
         }
 
         body.light-mode .mobile-menu {
             background: #fff;
             border: 1px solid #ddd;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
         }
-        
+
         body.light-mode .mobile-menu a {
-            color: #333;
+            color: var(--text-color-light);
         }
 
         body.light-mode .mobile-menu::before {
@@ -666,38 +712,289 @@
             border-right: none;
         }
 
-        body.light-mode .auth-buttons .login-btn {
-            background: linear-gradient(135deg, #ff6f00, #ff4f00);
-            color: white;
-        }
 
-        body.light-mode .auth-buttons .start-now-btn {
-            background: linear-gradient(135deg, #00d4aa, #00b894);
-            color: #fff;
-        }
+        /* Testimonials Section */
+.testimonials-section {
+    padding: 80px 60px;
+    background: linear-gradient(135deg, #1a1a1a 0%, #222 100%);
+    text-align: center;
+}
 
-        body.light-mode .cta-btn {
-            background: linear-gradient(135deg, #ff6f00, #ff4f00);
-            color: #fff;
+.testimonials-section h2 {
+    font-size: 3rem;
+    color: var(--brand-orange);
+    margin-bottom: 30px;
+    font-weight: bold;
+}
 
-        }
-        
+.testimonials-section .intro-text {
+    font-size: 1.3rem;
+    color: #ccc;
+    margin-bottom: 50px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.testimonials-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto 50px;
+}
+
+.testimonial-card {
+    background-color: var(--dark-tertiary-bg);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.4);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: left;
+}
+
+.testimonial-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(255, 79, 0, 0.2);
+}
+
+.testimonial-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.testimonial-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 15px;
+    border: 3px solid var(--brand-orange);
+}
+
+.testimonial-info h3 {
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+    color: #fff;
+}
+
+.testimonial-rating {
+    color: #ffc107;
+}
+
+.testimonial-text {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #ccc;
+}
+
+.testimonials-cta {
+    margin-top: 40px;
+}
+
+.testimonials-cta p {
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+    color: #ccc;
+}
+
+/* Light mode styles for testimonials */
+body.light-mode .testimonials-section {
+    background: linear-gradient(135deg, var(--light-bg) 0%, var(--light-tertiary-bg) 100%);
+}
+
+body.light-mode .testimonial-card {
+    background-color: var(--light-secondary-bg);
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+body.light-mode .testimonial-info h3 {
+    color: var(--text-color-light);
+}
+
+body.light-mode .testimonial-text {
+    color: var(--text-color-light);
+}
+
+body.light-mode .testimonials-cta p {
+    color: var(--text-color-light);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .testimonials-section {
+        padding: 50px 30px;
+    }
+    
+    .testimonials-section h2 {
+        font-size: 2.5rem;
+    }
+    
+    .testimonials-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+
+
+
+
+.contact-section {
+  padding: 60px 20px;
+  background: var(--dark-secondary-bg);
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+}
+
+.contact-heading {
+  font-size: 2.5rem;
+  color: #0e6ba8;
+  margin-bottom: 10px;
+}
+
+.intro-text {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 40px;
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 30px;
+  margin-bottom: 50px;
+}
+
+.contact-item {
+  background: var(--dark-tertiary-bg);
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.06);
+  transition: transform 0.3s;
+}
+
+.contact-item i {
+  font-size: 2rem;
+  color: #0e6ba8;
+  margin-bottom: 10px;
+}
+
+.contact-item h3 {
+  margin: 10px 0;
+}
+
+.contact-form {
+  max-width: 700px;
+  margin: auto;
+  background: var(--dark-tertiary-bg);
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  text-align: left;
+}
+
+.contact-form h3 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #0e6ba8;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+input,
+textarea {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.submit-btn {
+  background: #0e6ba8;
+  color: #fff;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.submit-btn:hover {
+  background: #094a76;
+}
+
+footer {
+  background-color: #111;
+  color: #fff;
+  padding: 40px 0;
+  text-align: center;
+  position: relative;
+  bottom: 0;
+  width: 100%;
+}
+
+.footer-content h3 {
+  margin-bottom: 10px;
+  font-size: 24px;
+  color: #00dfc4;
+  font-weight: 700;
+}
+
+.footer-content p {
+  margin: 5px 0;
+  font-size: 14px;
+  color: #bbb;
+}
+
+.footer-content .socials {
+  margin-top: 15px;
+}
+
+.footer-content .socials a {
+  color: #fff;
+  margin: 0 10px;
+  font-size: 18px;
+  text-decoration: none;
+  transition: 0.3s ease;
+}
+
+.footer-content .socials a:hover {
+  color: #00dfc4;
+}
+
     </style>
 </head>
 
 <body>
+
     <header>
         <nav>
             <div class="logo">
                 <h3>Fit You</h3>
             </div>
-            
+
             <div class="auth-buttons">
-                <a href="/ai-coach" class="start-now-btn">🤖 AI Coach</a>
-                <a href="/sport" class="login-btn">Sport Scheduler</a>
-                <a href="/diet" class="start-now-btn">Get your diet plan</a>
-                <a href="/workout" class="login-btn">Workout</a>
-                <a href="/gen" class="start-now-btn">Personalized Routine</a>
+                <a href="/ai-coach" class="secondary-btn">🤖 AI Coach</a>
+                <a href="/sport" class="primary-btn">🤾‍♀️Sport Scheduler</a>
+                <a href="/diet" class="secondary-btn"> 🥗 Get your diet plan</a>
+                <a href="/workout" class="primary-btn">💪Workout</a>
+                <a href="/gen" class="secondary-btn">🗓️Personalized Routine</a>
                 <button class="toggle-theme" id="themeToggle"><i class="fas fa-moon"></i></button>
             </div>
 
@@ -708,11 +1005,11 @@
             </button>
 
             <div class="mobile-menu" id="mobileMenu">
-                <a href="/ai-coach" class="start-now-btn">🤖 AI Coach</a>
-                <a href="/sport" class="login-btn">Sport Scheduler</a>
-                <a href="/diet" class="start-now-btn">Get your diet plan</a>
-                <a href="/workout" class="login-btn">Workout</a>
-                <a href="/gen" class="start-now-btn">Personalized Routine</a>
+                <a href="/ai-coach" class="secondary-btn">🤖 AI Coach</a>
+                <a href="/sport" class="primary-btn">Sport Scheduler</a>
+                <a href="/diet" class="secondary-btn">Get your diet plan</a>
+                <a href="/workout" class="primary-btn">Workout</a>
+                <a href="/gen" class="secondary-btn">Personalized Routine</a>
             </div>
         </nav>
 
@@ -721,8 +1018,8 @@
     <main>
         <section class="hero">
             <div class="text-container">
-                <h1>Your Fitness Coach</h1>
-                <p>With the FitAi Coach workout app, you get a personalized fitness program that gets you real results.</p>
+                <h1 class="hero-heading">Your Fitness Coach</h1>
+                <p class="hero-subheading">With the FitAi Coach workout app, you get a personalized fitness program that gets you real results.</p>
                 <a href="/gen" class="cta-btn">Get your workout plan now</a>
                 <p class="quiz-info">Take the FREE quiz to get personalized exercises!</p>
             </div>
@@ -732,7 +1029,7 @@
             </div>
         </section>
 
-        <section class="features">
+       <section class="features">
             <div class="feature">
                 <i class="fas fa-dumbbell"></i>
                 <h2>Personalized Workouts</h2>
@@ -749,10 +1046,100 @@
                 <p>Chat with your AI coach to get answers to all your fitness questions and more.</p>
             </div>
         </section>
+            
+           
+        <!-- Our Services Section -->
+        <section class="services-section">
+            <h2>Our Services</h2>
+            <p class="intro-text">We offer a full suite of services to help you achieve your fitness goals and maintain a healthy lifestyle.</p>
+            <div class="services-grid">
+                <div class="service-item">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Progress Tracking</h3>
+                    <p>Track your workouts, body metrics, and progress over time with our intuitive dashboard.</p>
+                </div>
+                <div class="service-item">
+                    <i class="fas fa-utensils"></i>
+                    <h3>Nutrition Planning</h3>
+                    <p>Receive custom meal plans based on your dietary preferences and fitness objectives.</p>
+                </div>
+                <div class="service-item">
+                    <i class="fas fa-video"></i>
+                    <h3>Live Classes</h3>
+                    <p>Join live, interactive workout sessions with certified instructors and fellow fitness enthusiasts.</p>
+                </div>
+            </div>
+        </section>
 
+        <!-- Testimonials Section -->
+
+        <!-- Add this section right after the Services section -->
+<section class="testimonials-section">
+    <h2>What Our Users Say</h2>
+    <p class="intro-text">Hear from people who have transformed their fitness journey with Fit You</p>
+    
+    <div class="testimonials-container">
+        <div class="testimonial-card">
+            <div class="testimonial-header">
+                <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="Sarah Johnson" class="testimonial-avatar">
+                <div class="testimonial-info">
+                    <h3>Sarah Johnson</h3>
+                    <div class="testimonial-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+            </div>
+            <p class="testimonial-text">"I've lost 25 pounds in 3 months with Fit You! The personalized workout plans and diet suggestions made all the difference. The AI coach is like having a personal trainer available 24/7."</p>
+        </div>
+        
+        <div class="testimonial-card">
+            <div class="testimonial-header">
+                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Michael Chen" class="testimonial-avatar">
+                <div class="testimonial-info">
+                    <h3>Michael Chen</h3>
+                    <div class="testimonial-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                </div>
+            </div>
+            <p class="testimonial-text">"As someone who struggled with consistency, the sport scheduler feature has been a game-changer. I've been working out regularly for 4 months now and actually enjoying it!"</p>
+        </div>
+        
+        <div class="testimonial-card">
+            <div class="testimonial-header">
+                <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Jessica Williams" class="testimonial-avatar">
+                <div class="testimonial-info">
+                    <h3>Jessica Williams</h3>
+                    <div class="testimonial-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+            </div>
+            <p class="testimonial-text">"The diet plans are incredible! I have specific dietary restrictions, and the AI was able to create perfect meal plans that I actually look forward to. No more boring diet food!"</p>
+        </div>
+    </div>
+    
+    <div class="testimonials-cta">
+        
+        <a href="/gen" class="cta-btn">Join Now</a>
+    </div>
+</section>
+  
         <section class="contact-section">
-            <h2>Get in Touch</h2>
-            <p>Ready to start your fitness journey? Contact us for more information or to sign up.</p>
+            <h2 class="contact-heading">Get in Touch</h2>
+            <p class="intro-text">Ready to start your fitness journey? Contact us for more information or to sign up.</p>
             <div class="contact-grid">
                 <div class="contact-item">
                     <i class="fas fa-envelope"></i>
@@ -791,36 +1178,180 @@
         </section>
     </main>
 
-    <footer>
-        <p>&copy; 2024 Fit You. All Rights Reserved.</p>
-    </footer>
+    <footer id="footer">
+  <div class="footer-content">
+    <h3>Fit You</h3>
+    <p>&copy; 2024 Fit You. All Rights Reserved.</p>
+    <div class="socials">
+      <a href="#"><i class="fab fa-facebook-f"></i></a>
+      <a href="#"><i class="fab fa-twitter"></i></a>
+      <a href="#"><i class="fab fa-instagram"></i></a>
+      <a href="#"><i class="fab fa-youtube"></i></a>
+    </div>
+  </div>
+</footer>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
     <script>
-        // JavaScript for mobile menu toggle
-        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
-        const mobileMenu = document.getElementById('mobileMenu');
-        const themeToggle = document.getElementById('themeToggle');
-        
-        function toggleMobileMenu() {
-            mobileMenuToggle.classList.toggle('active');
-            mobileMenu.classList.toggle('active');
-        }
+        // JS for mobile menu and theme toggle
+        document.addEventListener('DOMContentLoaded', () => {
+            const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+            const mobileMenu = document.getElementById('mobileMenu');
+            const themeToggle = document.getElementById('themeToggle');
 
-        mobileMenuToggle.addEventListener('click', toggleMobileMenu);
-
-        // JavaScript for theme toggle
-        themeToggle.addEventListener('click', () => {
-            document.body.classList.toggle('light-mode');
-            const icon = themeToggle.querySelector('i');
-            if (document.body.classList.contains('light-mode')) {
-                icon.classList.remove('fa-moon');
-                icon.classList.add('fa-sun');
-            } else {
-                icon.classList.remove('fa-sun');
-                icon.classList.add('fa-moon');
+            function toggleMobileMenu() {
+                mobileMenuToggle.classList.toggle('active');
+                mobileMenu.classList.toggle('active');
             }
+
+            mobileMenuToggle.addEventListener('click', toggleMobileMenu);
+
+            themeToggle.addEventListener('click', () => {
+                document.body.classList.toggle('light-mode');
+                const icon = themeToggle.querySelector('i');
+                if (document.body.classList.contains('light-mode')) {
+                    icon.classList.remove('fa-moon');
+                    icon.classList.add('fa-sun');
+                } else {
+                    icon.classList.remove('fa-sun');
+                    icon.classList.add('fa-moon');
+                }
+            });
+
+            // GSAP Animations
+            gsap.registerPlugin(ScrollTrigger);
+
+            // Animate Header on Load
+            gsap.from("header", {
+                y: -100,
+                opacity: 0,
+                duration: 0.8,
+                ease: "power2.out"
+            });
+
+            // Hero Section Animation
+            const heroTl = gsap.timeline({ defaults: { ease: "power3.out", opacity: 0 } });
+            heroTl.from(".hero-heading", { y: 50, duration: 1.2 })
+                .from(".hero-subheading", { y: 40, duration: 1, delay: -0.8 })
+                .from(".cta-btn", { scale: 0.8, duration: 0.8, delay: -0.6 })
+                .from(".quiz-info", { y: 20, duration: 0.6, delay: -0.4 })
+                .from(".phone-mockup", {
+                    scale: 0.8,
+                    y: 100,
+                    rotation: 15,
+                    duration: 1.5,
+                    ease: "back.out(1.7)",
+                    delay: -1.5
+                })
+                .from(".overlay-text", { scale: 0.5, duration: 0.5, ease: "back.out(2)", delay: -0.8 });
+
+
+            // Features Section Animation with ScrollTrigger
+            gsap.from(".feature", {
+                y: 80,
+                opacity: 0,
+                stagger: 0.2,
+                duration: 1,
+                ease: "back.out(1.2)",
+                scrollTrigger: {
+                    trigger: ".features",
+                    start: "top 80%",
+                }
+            });
+
+            // Services Section Animation with ScrollTrigger
+            const servicesTl = gsap.timeline({
+                defaults: { ease: "power2.out" },
+                scrollTrigger: {
+                    trigger: ".services-section",
+                    start: "top 80%",
+                }
+            });
+            servicesTl.from(".services-section h2", { y: 50, opacity: 0, duration: 0.8 })
+                .from(".services-section .intro-text", { y: 30, opacity: 0, duration: 0.7, delay: -0.4 })
+                .from(".service-item", { x: 50, opacity: 0, stagger: 0.3, duration: 0.9, delay: -0.2 });
+
+            // Contact Section Animation with ScrollTrigger
+            const contactTl = gsap.timeline({
+                defaults: { ease: "power2.out" },
+                scrollTrigger: {
+                    trigger: ".contact-section",
+                    start: "top 80%",
+                }
+            });
+            contactTl.from(".contact-heading", { y: 50, opacity: 0, duration: 0.8 })
+                .from(".intro-text", { y: 30, opacity: 0, duration: 0.7, delay: -0.4 })
+                .from(".contact-item", { x: -50, opacity: 0, stagger: 0.3, duration: 0.9, delay: -0.2 })
+                .from(".contact-form", { y: 50, opacity: 0, duration: 1, ease: "back.out(1.7)" });
+
+            // Animate buttons on hover using GSAP
+            const buttons = gsap.utils.toArray(".auth-buttons a, .cta-btn, .submit-btn");
+            buttons.forEach((btn) => {
+                btn.addEventListener("mouseenter", () => {
+                    gsap.to(btn, { scale: 1.05, duration: 0.3, ease: "power1.out" });
+                });
+                btn.addEventListener("mouseleave", () => {
+                    gsap.to(btn, { scale: 1, duration: 0.3, ease: "power1.out" });
+                });
+            });
         });
+
+
+        // Testimonials Section Animation with ScrollTrigger
+const testimonialsTl = gsap.timeline({
+    defaults: { ease: "power2.out" },
+    scrollTrigger: {
+        trigger: ".testimonials-section",
+        start: "top 80%",
+    }
+});
+testimonialsTl.from(".testimonials-section h2", { y: 50, opacity: 0, duration: 0.8 })
+    .from(".testimonials-section .intro-text", { y: 30, opacity: 0, duration: 0.7, delay: -0.4 })
+    .from(".testimonial-card", { 
+        y: 80, 
+        opacity: 0, 
+        stagger: 0.3, 
+        duration: 0.9, 
+        delay: -0.2 
+    })
+    .from(".testimonials-cta", { y: 30, opacity: 0, duration: 0.7 });
     </script>
+
+    <script>
+  gsap.from(".logo h3", {
+    y: -40,
+    opacity: 0,
+    duration: 1.2,
+    ease: "bounce.out",
+    delay: 0.5
+  });
+</script>
+<script>
+    // 🚀 Animate the form on load
+    gsap.from("#contactForm", {
+      duration: 1.2,
+      opacity: 0,
+      y: 50,
+      ease: "power3.out",
+      delay: 0.3
+    });
+  </script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script>
+  gsap.from("#footer", {
+    y: 100,
+    opacity: 0,
+    duration: 1,
+    ease: "power4.out"
+  });
+</script>
+
 </body>
 
 </html>
