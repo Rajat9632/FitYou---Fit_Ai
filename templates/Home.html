@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FIT YOU - Your AI-powered Fitness Coach</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <style>
         /* General body and font styling */
@@ -17,7 +18,7 @@
         }
 
         body {
-            background-color: #000;
+            background-color: #020202;
             color: #fff;
             font-size: 16px;
             overflow-x: hidden;
@@ -26,9 +27,9 @@
 
         /* Header styling */
         header {
-            background-color: #222;
+            background-color: #d4ae81;
             padding: 20px;
-            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
+            box-shadow: 0px 4px 15px rgba(232, 138, 37, 0.81);
             position: sticky;
             top: 0;
             z-index: 1000;
@@ -44,7 +45,7 @@
         .logo h3 {
             font-size: 2rem;
             font-weight: bold;
-            color: #ff4f00;
+            color: #664223;
         }
 
         .auth-buttons {
@@ -59,7 +60,7 @@
         }
 
         .nav-links a {
-            color: #fff;
+            color: #96ebe3;
             text-decoration: none;
             font-size: 1.1rem;
             font-weight: 500;
@@ -67,7 +68,7 @@
         }
 
         .nav-links a:hover {
-            color: #ff4f00;
+            color: #cdc758;
         }
 
         .auth-buttons a {
@@ -78,35 +79,35 @@
             font-size: 0.95rem;
             font-weight: bold;
             transition: all 0.3s ease-in-out;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+            box-shadow: 0 4px 10px rgba(162, 117, 117, 0.4);
             border: none;
         }
 
         /* Specific button styling */
         .auth-buttons .login-btn {
-            background: linear-gradient(135deg, #ff6f00, #ff4f00);
+            background: linear-gradient(135deg, #d37228, #d37228);
             color: white;
         }
 
         .auth-buttons .login-btn:hover {
             transform: scale(1.05) translateY(-2px);
-            box-shadow: 0 6px 15px rgba(255, 79, 0, 0.4);
+            box-shadow: 0 6px 15px rgba(206, 100, 51, 0.922);
         }
 
         .auth-buttons .start-now-btn {
-            background: linear-gradient(135deg, #00d4aa, #00b894);
-            color: #fff;
+            background: linear-gradient(135deg, #d37228, #d37228);
+            color: #f1e9e9;
         }
 
         .auth-buttons .start-now-btn:hover {
             transform: scale(1.05) translateY(-2px);
-            box-shadow: 0 6px 15px rgba(0, 212, 170, 0.4);
+            box-shadow: 0 6px 15px rgb(198, 108, 34);
         }
 
         /* Mobile Menu Toggle */
         .mobile-menu-toggle {
             display: none;
-            background: #ff4f00;
+            background: #d37343;
             border: none;
             cursor: pointer;
             padding: 8px;
@@ -146,14 +147,14 @@
             position: absolute;
             top: calc(100% + 10px);
             right: 20px;
-            background: linear-gradient(135deg, #333, #222);
+            background: linear-gradient(135deg, #f7c775, #f9f4f8);
             backdrop-filter: blur(5px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 8px 25px rgba(208, 157, 70, 0.4);
             z-index: 999;
             border-radius: 20px;
             overflow: hidden;
             min-width: 250px;
-            border: 1px solid #444;
+            border: 1px solid #615c5c;
             padding: 10px;
         }
         
@@ -190,13 +191,13 @@
         }
 
         .mobile-menu .login-btn {
-            background: linear-gradient(135deg, #ff4f00, #e64300);
+            background: linear-gradient(135deg, #d46d3e, #d45f31);
             color: #fff;
         }
 
         .mobile-menu .start-now-btn {
-            background: linear-gradient(135deg, #eaff07, #c9e000);
-            color: #000;
+            background: linear-gradient(135deg, #d46d3e, #d45f31);
+            color: #f5f0f0;
         }
         
         .mobile-menu a:hover {
@@ -211,7 +212,7 @@
             align-items: center;
             padding: 60px;
             min-height: 89vh;
-            background: linear-gradient(135deg, #111 0%, #222 100%);
+            background: linear-gradient(135deg, #8360355e 0%, #7f693755 100%);
             position: relative;
         }
 
@@ -222,7 +223,7 @@
 
         .hero h1 {
             font-size: 4rem;
-            color: #ff4f00;
+            color: #f56207;
             font-weight: bold;
             margin-bottom: 25px;
             line-height: 1.2;
@@ -230,15 +231,15 @@
 
         .hero p {
             margin-top: 20px;
-            color: #ccc;
+            color: #c8a36d;
             font-size: 1.6rem;
             line-height: 1.6;
         }
 
         .cta-btn {
             display: inline-block;
-            background-color: #ff4f00;
-            color: #fff;
+            background-color: #d9823a;
+            color: #e7d8d8;
             padding: 15px 40px;
             border-radius: 50px;
             text-decoration: none;
@@ -246,18 +247,18 @@
             font-size: 1.3rem;
             font-weight: bold;
             transition: background-color 0.3s ease, transform 0.3s ease;
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 8px 15px rgba(239, 164, 93, 0.985);
         }
 
         .cta-btn:hover {
-            background-color: #e64300;
+            background-color: #f07a0a;
             transform: translateY(-3px);
         }
 
         .quiz-info {
             margin-top: 20px;
             font-size: 1.2rem;
-            color: #ddd;
+            color: #dea453;
         }
 
         .phone-mockup {
@@ -271,7 +272,7 @@
             width: 100%;
             height: auto;
             border-radius: 20px;
-            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3);
+            box-shadow: 0px 8px 15px rgb(223, 161, 91);
         }
 
         .overlay-text {
@@ -279,12 +280,12 @@
             top: 10px;
             left: 50%;
             transform: translateX(-50%);
-            background-color: rgba(255, 255, 255, 0.9);
+            background-color: rgba(231, 140, 49, 0.9);
             padding: 15px;
             border-radius: 25px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            box-shadow: 0px 4px 10px rgb(227, 170, 46);
             font-size: 1.3rem;
-            color: #333;
+            color: #f3cb8f;
             font-weight: bold;
             text-align: center;
         }
@@ -294,7 +295,7 @@
             display: flex;
             justify-content: space-around;
             padding: 60px;
-            background: linear-gradient(135deg, #222 0%, #111 100%);
+            background: linear-gradient(135deg, #83603561 0%, #7f693759 100%);
             gap: 20px;
         }
 
@@ -302,9 +303,9 @@
             text-align: center;
             max-width: 300px;
             padding: 25px;
-            background-color: #333;
+            background-color: #ca703f;
             border-radius: 15px;
-            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3);
+            box-shadow: 0px 8px 15px rgba(232, 157, 72, 0.856);
             transition: transform 0.3s ease;
         }
 
@@ -314,7 +315,7 @@
 
         .feature i {
             font-size: 3rem;
-            color: #ff4f00;
+            color: #573927;
             margin-bottom: 20px;
         }
 
@@ -325,26 +326,26 @@
 
         .feature p {
             font-size: 1.1rem;
-            color: #ccc;
+            color: #ecc86d;
         }
 
         /* Contact Section */
         .contact-section {
-            background: linear-gradient(135deg, #111 0%, #222 100%);
+            background: linear-gradient(135deg, #83603561  0%, #7f693759 100%);
             padding: 80px 60px;
             text-align: center;
         }
 
         .contact-section h2 {
             font-size: 3rem;
-            color: #ff4f00;
+            color: #e29d14;
             margin-bottom: 30px;
             font-weight: bold;
         }
 
         .contact-section p {
             font-size: 1.3rem;
-            color: #ccc;
+            color: #e1a545;
             margin-bottom: 50px;
             max-width: 600px;
             margin-left: auto;
@@ -360,35 +361,35 @@
         }
 
         .contact-item {
-            background-color: #333;
+            background-color: #f3ab47;
             padding: 35px;
             border-radius: 20px;
-            box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.4);
+            box-shadow: 0px 8px 20px rgba(230, 156, 59, 0.937);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             border: 2px solid transparent;
         }
 
         .contact-item:hover {
             transform: translateY(-8px);
-            box-shadow: 0px 15px 30px rgba(255, 79, 0, 0.2);
-            border-color: #ff4f00;
+            box-shadow: 0px 15px 30px rgb(215, 125, 36);
+            border-color: #e7730d;
         }
 
         .contact-item i {
             font-size: 2.5rem;
-            color: #ff4f00;
+            color: #ab5317;
             margin-bottom: 20px;
         }
 
         .contact-item h3 {
             font-size: 1.5rem;
             margin-bottom: 15px;
-            color: #fff;
+            color: #da781d;
         }
 
         .contact-item p, .contact-item a {
             font-size: 1.1rem;
-            color: #ccc;
+            color: #dd7814;
             text-decoration: none;
             transition: color 0.3s ease;
         }
@@ -398,10 +399,10 @@
         }
 
         .contact-form {
-            background-color: #333;
+            background-color: #f3ab47;
             padding: 40px;
             border-radius: 20px;
-            box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.4);
+            box-shadow: 0px 8px 20px rgba(232, 147, 57, 0.989);
             max-width: 600px;
             margin: 50px auto 0;
         }
@@ -409,7 +410,7 @@
         .contact-form h3 {
             font-size: 1.8rem;
             margin-bottom: 30px;
-            color: #ff4f00;
+            color: #da781d;
             text-align: center;
         }
 
@@ -420,7 +421,7 @@
         .form-group label {
             display: block;
             margin-bottom: 8px;
-            color: #fff;
+            color: #da8128;
             font-weight: 600;
         }
 
@@ -428,9 +429,9 @@
         .form-group textarea {
             width: 100%;
             padding: 12px 15px;
-            border: 2px solid #555;
+            border: 2px solid #df982e;
             border-radius: 10px;
-            background-color: #222;
+            background-color: #f3b35afe;
             color: #fff;
             font-size: 1rem;
             transition: border-color 0.3s ease;
@@ -439,7 +440,7 @@
         .form-group input:focus,
         .form-group textarea:focus {
             outline: none;
-            border-color: #ff4f00;
+            border-color: #d96729;
         }
 
         .form-group textarea {
@@ -449,8 +450,8 @@
 
         .submit-btn {
             width: 100%;
-            background-color: #ff4f00;
-            color: #fff;
+            background-color: #ec7f2c;
+            color: #ab5317;
             padding: 15px;
             border: none;
             border-radius: 50px;
@@ -458,11 +459,11 @@
             font-weight: bold;
             cursor: pointer;
             transition: background-color 0.3s ease, transform 0.3s ease;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 6px 15px rgba(216, 149, 47, 0.988);
         }
 
         .submit-btn:hover {
-            background-color: #e64300;
+            background-color: #e58f18;
             transform: translateY(-2px);
         }
 
@@ -575,6 +576,10 @@
         .footer-bottom {
             border-top: 1px solid #444;
             padding-top: 25px;
+            background-color: #83603561 ;
+            color: #ffffff;
+            text-align: center;
+            padding: 25px;
             margin-top: 40px;
             text-align: center;
         }
@@ -775,17 +780,17 @@
 
         body.light-mode header,
         body.light-mode footer {
-            background-color: #ffffff;
-            color: #1a1a1a;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            background-color: #f1c7f1;
+            color: #0e0e0e;
+            box-shadow: 0px 4px 10px rgba(154, 60, 127, 0.1);
         }
         
         body.light-mode .hero {
-            background: linear-gradient(135deg, #f9f9f9 0%, #e9e9e9 100%);
+            background: linear-gradient(135deg, #fbf9fb 0%, #f7dcf2 100%);
         }
 
         body.light-mode .hero h1 {
-            color: #ff4f00; /* keep brand color */
+            color: #f68114; /* keep brand color */
         }
         
         body.light-mode .hero p,
@@ -794,16 +799,16 @@
         }
 
         body.light-mode .features {
-            background: linear-gradient(135deg, #f9f9f9 0%, #e9e9e9 100%);
+            background: linear-gradient(135deg, #f9f9f9 0%, #f7dcf2 100%);
         }
         
         body.light-mode .feature {
-            background-color: #fff;
+            background-color: #fcfcfc;
             box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
         }
 
         body.light-mode .contact-section {
-            background: linear-gradient(135deg, #f9f9f9 0%, #e9e9e9 100%);
+            background: linear-gradient(135deg, #f9f9f9 0%, #f7dcf2 100%);
         }
 
         body.light-mode .contact-item {
@@ -850,12 +855,12 @@
         }
 
         body.light-mode .auth-buttons .login-btn {
-            background: linear-gradient(135deg, #ff6f00, #ff4f00);
+            background: linear-gradient(135deg, #e382ea, #00b894);
             color: white;
         }
 
         body.light-mode .auth-buttons .start-now-btn {
-            background: linear-gradient(135deg, #00d4aa, #00b894);
+            background: linear-gradient(135deg, #e382ea, #00b894);
             color: #fff;
         }
 
@@ -912,7 +917,8 @@
         body.light-mode .footer-bottom .heart {
             color: #ff4f00;
         }
-
+            background: linear-gradient(135deg, #e7b4f3, #b6f1da);
+            color: #f45f19;
         body.light-mode .newsletter-form input {
             background-color: #fff;
             color: #333;
@@ -939,7 +945,7 @@
             </div>
             
             <div class="auth-buttons">
-                <a href="/ai-coach" class="start-now-btn">🤖 AI Coach</a>
+                <a href="/ai-coach" class="start-now-btn" >🤖 AI Coach</a>
                 <a href="/sport" class="login-btn">Sport Scheduler</a>
                 <a href="/diet" class="start-now-btn">Get your diet plan</a>
                 <a href="/workout" class="login-btn">Workout</a>
@@ -1114,6 +1120,51 @@
             }
         });
     </script>
+
+    <!-- Back to Top Button -->
+<button onclick="scrollToTop()" id="backToTopBtn" title="Go to top">⬆</button>
+
+<style>
+#backToTopBtn {
+  display: none; 
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 100;
+  font-size: 18px;
+  border: none;
+  outline: none;
+  background-color: #007BFF;
+  color: white;
+  cursor: pointer;
+  padding: 10px 15px;
+  border-radius: 50%;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  transition: background-color 0.3s ease;
+}
+#backToTopBtn:hover {
+  background-color: #0056b3;
+}
+</style>
+
+<script>
+let btn = document.getElementById("backToTopBtn");
+
+// Show button when user scrolls down
+window.onscroll = function() {
+  if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+    btn.style.display = "block";
+  } else {
+    btn.style.display = "none";
+  }
+};
+
+// Smooth scroll back to top
+function scrollToTop() {
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+</script>
+
 </body>
 
 </html>
