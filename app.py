@@ -7,6 +7,7 @@ import json
 
 app = Flask(__name__)
 
+
 # Rule-based fitness chatbot for Vercel compatibility
 def chat_with_fitness_ai(message, context=""):
     """

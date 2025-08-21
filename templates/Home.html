@@ -469,17 +469,174 @@
 
         /* Footer */
         footer {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: #fff;
+            padding: 60px 40px 30px;
+            position: relative;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-section {
+            margin-bottom: 30px;
+        }
+
+        .footer-section h3 {
+            color: #ff4f00;
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+            position: relative;
+        }
+
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: linear-gradient(90deg, #ff4f00, #ff6f00);
+            border-radius: 2px;
+        }
+
+        .footer-section p {
+            color: #ccc;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-section ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            display: inline-block;
+            position: relative;
+        }
+
+        .footer-section ul li a:hover {
+            color: #ff4f00;
+            transform: translateX(5px);
+        }
+
+        .footer-section ul li a::before {
+            content: '→';
+            margin-right: 8px;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .footer-section ul li a:hover::before {
+            opacity: 1;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #ff4f00, #ff6f00);
+            color: #fff;
+            border-radius: 50%;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 10px rgba(255, 79, 0, 0.3);
+        }
+
+        .social-links a:hover {
+            transform: translateY(-3px) scale(1.1);
+            box-shadow: 0 6px 15px rgba(255, 79, 0, 0.5);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #444;
+            padding-top: 25px;
             background-color: #83603561 ;
             color: #ffffff;
             text-align: center;
             padding: 25px;
             margin-top: 40px;
-            font-size: 1.1rem;
+            text-align: center;
         }
 
-        footer p {
+        .footer-bottom p {
+            color: #999;
+            font-size: 0.9rem;
             margin: 0;
+        }
+
+        .footer-bottom .heart {
+            color: #ff4f00;
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #444;
+            border-radius: 25px;
+            background-color: #333;
+            color: #fff;
+            font-size: 0.9rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .newsletter-form input:focus {
+            outline: none;
+            border-color: #ff4f00;
+        }
+
+        .newsletter-form button {
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #ff4f00, #ff6f00);
+            color: #fff;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
             font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .newsletter-form button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(255, 79, 0, 0.4);
         }
 
         /* Media Queries for Responsiveness */
@@ -567,6 +724,36 @@
 
             .contact-section h2 {
                 font-size: 2.5rem;
+            }
+
+            footer {
+                padding: 40px 20px 20px;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .footer-section {
+                text-align: center;
+            }
+
+            .footer-section h3::after {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            .social-links {
+                justify-content: center;
+            }
+
+            .newsletter-form {
+                flex-direction: column;
+            }
+
+            .newsletter-form button {
+                width: 100%;
             }
         }
 
@@ -678,9 +865,73 @@
         }
 
         body.light-mode .cta-btn {
+            background: linear-gradient(135deg, #ff6f00, #ff4f00);
+            color: #fff;
+        }
+
+        /* Light Mode Footer Styles */
+        body.light-mode footer {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            color: #333;
+            border-top: 3px solid #ff4f00;
+        }
+
+        body.light-mode .footer-section h3 {
+            color: #ff4f00;
+        }
+
+        body.light-mode .footer-section h3::after {
+            background: linear-gradient(90deg, #ff4f00, #ff6f00);
+        }
+
+        body.light-mode .footer-section p {
+            color: #555;
+        }
+
+        body.light-mode .footer-section ul li a {
+            color: #555;
+        }
+
+        body.light-mode .footer-section ul li a:hover {
+            color: #ff4f00;
+        }
+
+        body.light-mode .social-links a {
+            background: linear-gradient(135deg, #ff4f00, #ff6f00);
+            color: #fff;
+            box-shadow: 0 4px 10px rgba(255, 79, 0, 0.2);
+        }
+
+        body.light-mode .social-links a:hover {
+            box-shadow: 0 6px 15px rgba(255, 79, 0, 0.4);
+        }
+
+        body.light-mode .footer-bottom {
+            border-top: 1px solid #dee2e6;
+        }
+
+        body.light-mode .footer-bottom p {
+            color: #6c757d;
+        }
+
+        body.light-mode .footer-bottom .heart {
+            color: #ff4f00;
+        }
             background: linear-gradient(135deg, #e7b4f3, #b6f1da);
             color: #f45f19;
+        body.light-mode .newsletter-form input {
+            background-color: #fff;
+            color: #333;
+            border-color: #ced4da;
+        }
 
+        body.light-mode .newsletter-form input:focus {
+            border-color: #ff4f00;
+        }
+
+        body.light-mode .newsletter-form button {
+            background: linear-gradient(135deg, #ff4f00, #ff6f00);
+            color: #fff;
         }
         
     </style>
@@ -793,7 +1044,54 @@
     </main>
 
     <footer>
-        <p>&copy; 2024 Fit You. All Rights Reserved.</p>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Fit You</h3>
+                <p>Your AI-powered fitness companion that transforms your health journey with personalized workouts, diet plans, and expert guidance.</p>
+                <div class="social-links">
+                    <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" title="YouTube"><i class="fab fa-youtube"></i></a>
+                    <a href="#" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="/ai-coach">AI Coach</a></li>
+                    <li><a href="/sport">Sport Scheduler</a></li>
+                    <li><a href="/diet">Diet Plans</a></li>
+                    <li><a href="/workout">Workout Routines</a></li>
+                    <li><a href="/gen">Personalized Routine</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Support</h3>
+                <ul>
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">FAQ</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Newsletter</h3>
+                <p>Stay updated with the latest fitness tips, workout routines, and exclusive offers!</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Enter your email" required>
+                    <button type="submit">Subscribe</button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2024 Fit You. All Rights Reserved. Made with <span class="heart">❤</span> for fitness enthusiasts.</p>
+        </div>
     </footer>
 
     <script>
