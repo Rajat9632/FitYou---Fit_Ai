@@ -1,7 +1,7 @@
 services:
   - type: web
     name: fitai-backend
-    env: python
+    runtime: python
     buildCommand: pip install -r requirements.txt
     startCommand: gunicorn app:app
     plan: free
@@ -12,7 +12,7 @@ services:
 
   - type: web
     name: fitai-frontend
-    env: static
+    runtime: static
     buildCommand: npm install && npm run build
     staticPublishPath: frontend/build
     plan: free
