@@ -1,6 +1,6 @@
 Flask
 pandas
+python-dotenv
+google-generativeai
 requests
-flask-cors
-werkzeug
-serverless-wsgi
+gunicorn
