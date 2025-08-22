@@ -10,7 +10,7 @@ services:
         sync: false
     pythonVersion: 3.12
 
-  - type: static
+  - type: web
     name: fitai-frontend
     env: static
     buildCommand: npm install && npm run build
