@@ -1,3 +1,5 @@
+pythonVersion: 3.12
+
 services:
   - type: web
     name: fitai-backend
@@ -8,8 +10,6 @@ services:
     envVars:
       - key: GEMINI_API_KEY
         sync: false
-    build:
-      pythonVersion: 3.12
 
   - type: web
     name: fitai-frontend
