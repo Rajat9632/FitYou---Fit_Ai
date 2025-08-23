@@ -24,6 +24,7 @@ FitAi redefines fitness with AI-driven personalized plans for workouts and diets
   - [🤝 Contributions Welcome](#-contributions-welcome)
   - [📞 Contact](#-contact)
   - [🙏 Acknowledgments](#-acknowledgments)
+  - [📜 License](#-license)
 
 </details>
 
@@ -134,6 +135,12 @@ http://localhost:3000
 - My incredible team and contributors.  
 - Open-source tools and libraries.  
 - The fitness community for endless inspiration.  
+
+---
+
+## 📜 License
+
+This project is licensed under the **MIT License** - see the [LICENSE](./LICENSE) file for details.
 
 ---
 
