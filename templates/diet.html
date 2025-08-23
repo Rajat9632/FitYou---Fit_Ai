@@ -74,6 +74,24 @@
 
         .form-group {
             margin-bottom: 15px;
+
+
+            /* Allow arrows on number input fields */
+            input[type=number]::-webkit-inner-spin-button,
+            input[type=number]::-webkit-outer-spin-button {
+                -webkit-appearance: auto;
+                margin: 0;
+            }
+
+            /* For Firefox */
+            input[type=number] {
+                -moz-appearance: textfield;
+            }
+            
+            input[type=number]:hover,
+            input[type=number]:focus {
+                -moz-appearance: number-input;
+            }
         }
 
         label {
@@ -237,8 +255,10 @@
             </div>
             <div class="form-group">
                 <label for="duration">Duration (Weeks)</label>
+            
                 <input type="number" id="duration" name="duration" min="1" max="52" 
                        value="{{ form_data.duration if form_data else '' }}" required>
+                       
             </div>
             <div class="form-group">
                 <label for="diet_type">Diet Type</label>
