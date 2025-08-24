@@ -285,6 +285,35 @@ def ai_coach():
     """Display the AI fitness coach chatbot interface"""
     return render_template('chatbot.html')
 
+@app.route('/ai_query', methods=['GET', 'POST'])
+def ai_query():
+    """Display the AI fitness assistant interface"""
+    return render_template('ai_query.html')
+
+@app.route('/api/ai_query', methods=['POST'])
+def ai_query_api():
+    """API endpoint for AI query conversations"""
+    try:
+        data = request.json
+        user_prompt = data.get('user_prompt', '').strip()
+        
+        if not user_prompt:
+            return jsonify({'error': 'User prompt is required'}), 400
+        
+        # Get AI response using the existing chat_with_fitness_ai function
+        ai_response = chat_with_fitness_ai(user_prompt)
+        
+        return jsonify({
+            'response': ai_response,
+            'status': 'success'
+        })
+        
+    except Exception as e:
+        return jsonify({
+            'error': f'Server error: {str(e)}',
+            'status': 'error'
+        }), 500
+
 @app.route('/api/chat', methods=['POST'])
 def chat_api():
     """API endpoint for chatbot conversations"""
