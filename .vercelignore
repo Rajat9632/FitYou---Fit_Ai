@@ -20,7 +20,7 @@ build/
 dist/
 *.egg-info/
 
-# Ignore large data files
+# Ignore ALL large data files and static assets
 diet_data.csv
 exercises.csv
 *.jpg
@@ -28,6 +28,15 @@ exercises.csv
 *.jpeg
 *.gif
 *.ico
+*.svg
+*.webp
+
+# Ignore CSV files in templates too
+templates/*.csv
+
+# Ignore large image files
+static/images/*
+templates/images/*
 
 # Ignore IDE files
 .idea/
@@ -43,3 +52,13 @@ Thumbs.db
 .coverage
 htmlcov/
 .pytest_cache/
+
+# Ignore package manager files
+package-lock.json
+yarn.lock
+
+# Ignore documentation files (can be hosted separately)
+README*.md
+LICENSE
+SECURITY.md
+DEPLOYMENT.md
