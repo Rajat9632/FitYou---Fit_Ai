@@ -21,6 +21,8 @@ def chat_with_fitness_ai(message, context=""):
     """
     # Get the API key you stored in the .env file
     api_key = os.getenv("GEMINI_API_KEY")
+    print(f"DEBUG: API Key from env: {api_key[:10]}...{api_key[-4:] if api_key else 'None'}")
+    
     if not api_key:
         print("Error: Gemini API key is not configured in .env file.")
         return "Error: The AI Coach is not configured correctly. Please contact the administrator."
@@ -28,6 +30,7 @@ def chat_with_fitness_ai(message, context=""):
     try:
         # Configure the Gemini library with your key
         genai.configure(api_key=api_key)
+        print("DEBUG: Gemini configured successfully")
         
         # Define the AI's persona and instructions
         system_prompt = (
@@ -40,17 +43,21 @@ def chat_with_fitness_ai(message, context=""):
         
         # Combine your instructions with the user's actual question
         full_prompt = f"{system_prompt}\n\nUser's question: {message}"
+        print(f"DEBUG: Sending prompt: {full_prompt[:100]}...")
 
         # Call the Gemini model to get a response
         model = genai.GenerativeModel('gemini-1.5-flash')
         response = model.generate_content(full_prompt)
         
+        print("DEBUG: Response received successfully")
         # Send the AI's text response back to the user
         return response.text
         
     except Exception as e:
         # This will catch any errors if the API fails for some reason
         print(f"An error occurred with the Gemini API: {e}")
+        import traceback
+        traceback.print_exc()
         return "Sorry, I'm having a little trouble connecting to my brain right now. Please try again in a moment."
 
 def get_fitness_context(user_data=None):
@@ -108,6 +115,11 @@ def calculate_intensity(weight, height):
         return 60  # Moderate intensity for overweight
     else:
         return 40  # Lower intensity for obesity
+
+@app.route('/health')
+def health_check():
+    """Health check endpoint for Render monitoring"""
+    return jsonify({'status': 'healthy', 'service': 'FitAI Backend'}), 200
 
 @app.route('/gen')
 def index():
@@ -322,6 +334,9 @@ def chat_api():
         message = data.get('message', '').strip()
         user_context = data.get('context', {})
         
+        print(f"DEBUG: Received message: {message}")
+        print(f"DEBUG: User context: {user_context}")
+        
         if not message:
             return jsonify({'error': 'Message is required'}), 400
         
@@ -331,12 +346,15 @@ def chat_api():
         # Get AI response
         ai_response = chat_with_fitness_ai(message, context)
         
+        print(f"DEBUG: AI response: {ai_response}")
+        
         return jsonify({
             'response': ai_response,
             'status': 'success'
         })
         
     except Exception as e:
+        print(f"DEBUG: Error occurred: {str(e)}")
         return jsonify({
             'error': f'Server error: {str(e)}',
             'status': 'error'
@@ -445,5 +463,11 @@ def detect_health_conditions_from_text(text):
     
     return detected_conditions
 
+def create_app():
+    """Application factory pattern for better deployment"""
+    return app
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    # For production, use a proper WSGI server like gunicorn
+    # For local development, run with debug mode
+    app.run(debug=True, host='0.0.0.0', port=5000)
